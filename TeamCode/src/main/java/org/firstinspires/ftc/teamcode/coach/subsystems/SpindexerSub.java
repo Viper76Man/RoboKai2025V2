@@ -15,10 +15,11 @@ public class SpindexerSub implements Subsystem {
     private static double thirdPos = 2666.66; //240 degrees
     private static double shoot = 6666.66; //600 degrees
     public String lastCommand = "None";
+
     private final MotorEx motor = new MotorEx("spindexer");
 
     private final ControlSystem controlSystem = ControlSystem.builder()
-            .posPid(0.005, 0, 0)
+            .posPid(0.5, 0, 0)
             .build();
 
     public double getSpindexerPosition(){
@@ -27,22 +28,21 @@ public class SpindexerSub implements Subsystem {
 
 
 
-    //public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
-    //public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
+    public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
+    public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
     public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
     public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
 
-    public Command toFirstPos(){
-        lastCommand = "0 Degrees";
-        new RunToPosition(controlSystem, firstPos).requires(this).schedule();
-        return null;
-    }
+    //public void toFirstPos(){
+    //    lastCommand = "0 Degrees";
+     //   new RunToPosition(controlSystem, firstPos).requires(this).schedule();
+    //}
 
-    public Command toSecondPOS(){
-        lastCommand = "120 Degrees";
-        new RunToPosition(controlSystem, secondPos).requires(this).schedule();
-        return null;
-    }
+    //public Command toSecondPOS(){
+    //    lastCommand = "120 Degrees";
+    //    new RunToPosition(controlSystem, secondPos).requires(this).schedule();
+    //    return null;
+    //}
 
     @Override
     public void initialize() {
