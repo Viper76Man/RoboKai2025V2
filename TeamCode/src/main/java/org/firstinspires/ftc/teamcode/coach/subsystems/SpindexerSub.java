@@ -34,19 +34,19 @@ public class SpindexerSub implements Subsystem {
     //public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
 
     public Command toFirstPos(){
-        return new RunToPosition(controlSystem, firstPos).requires(this).named("First Position");
+        return new RunToPosition(controlSystem, firstPos, 50.0).requires(this).named("First Position");
     }
 
     public Command toSecondPos(){
-        return new RunToPosition(controlSystem, secondPos).requires(this).named("Second Position");
+        return new RunToPosition(controlSystem, secondPos, 50.0).requires(this).named("Second Position");
     }
 
     public Command toThirdPos(){
-        return new RunToPosition(controlSystem, thirdPos).requires(this).named("Third Position");
+        return new RunToPosition(controlSystem, thirdPos, 50.0).requires(this).named("Third Position");
     }
 
     public Command toShoot(){
-        return new RunToPosition(controlSystem, shoot).requires(this).named("Shoot");
+        return new RunToPosition(controlSystem, shoot, 50.0).requires(this).named("Shoot");
     }
 
     @Override
