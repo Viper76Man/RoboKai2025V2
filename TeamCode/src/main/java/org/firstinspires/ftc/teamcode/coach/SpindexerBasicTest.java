@@ -4,8 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.coach.subsystems.SpindexerSub;
 
+import java.util.List;
+
 import dev.nextftc.bindings.BindingManager;
-import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
@@ -27,19 +29,26 @@ public class SpindexerBasicTest extends NextFTCOpMode {
     public void onStartButtonPressed(){
         telemetry.addLine("Running");
 
-        Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+        Gamepads.gamepad1().dpadDown()
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos());
 
         Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPos());
+
+        Gamepads.gamepad1().dpadRight()
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos());
+
+        Gamepads.gamepad1().rightTrigger().greaterThan(.2)
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot());
     }
 
 
     @Override
     public void onUpdate() {
-        BindingManager.update();
+        //BindingManager.update();
+        List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
-        telemetry.addData("Last Command", SpindexerSub.INSTANCE.lastCommand);
+        telemetry.addData("Last Command", currentSnapshot);
         telemetry.update();
     }
 }
