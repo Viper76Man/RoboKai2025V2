@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.coach.subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
+import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.ftc.ActiveOpMode;
@@ -13,7 +14,8 @@ import dev.nextftc.ftc.ActiveOpMode;
 public class ColorSensorSub implements Subsystem {
     public static final ColorSensorSub INSTANCE = new ColorSensorSub();
     private ColorSensorSub(){}
-    private NormalizedColorSensor colorSensor;
+    private RevColorSensorV3 colorSensor;
+    private RevColorSensorV3 distanceSensor;
 
     public enum DetectedColor {
         PURPLE,
@@ -23,8 +25,14 @@ public class ColorSensorSub implements Subsystem {
 
     @Override
     public void initialize(){
-        colorSensor = ActiveOpMode.hardwareMap().get(NormalizedColorSensor.class, "colorSensor");
+        colorSensor = ActiveOpMode.hardwareMap().get(RevColorSensorV3.class, "colorSensor");
         colorSensor.setGain(60);
+        distanceSensor = ActiveOpMode.hardwareMap().get(RevColorSensorV3.class, "colorSensor");
+    }
+
+    public double getDistance(){
+        //Less then 25mm means a ball is in
+        return  distanceSensor.getDistance(DistanceUnit.MM);
     }
 
     public DetectedColor getDetectedColor(Telemetry telemetry){
@@ -60,5 +68,6 @@ public class ColorSensorSub implements Subsystem {
         }
 
     }
+
 
 }

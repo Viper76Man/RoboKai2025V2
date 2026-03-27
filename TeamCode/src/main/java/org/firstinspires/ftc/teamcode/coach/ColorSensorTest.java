@@ -27,6 +27,7 @@ public class ColorSensorTest extends NextFTCOpMode {
         List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
+        telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.update();
     }
 
