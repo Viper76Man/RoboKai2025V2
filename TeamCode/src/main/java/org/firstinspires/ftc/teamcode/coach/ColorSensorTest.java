@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.coach;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.teamcode.coach.subsystems.ColorSensorSub;
 
