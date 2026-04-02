@@ -10,16 +10,21 @@ public class SpindexerSub implements Subsystem {
     public static final SpindexerSub INSTANCE = new SpindexerSub();
     private SpindexerSub(){}
 
-    private static double firstPos = 0; //0 degrees
-    private static double secondPos = 1333.33; //120 degrees
-    private static double thirdPos = 2666.66; //240 degrees
-    private static double shoot = 6666.66; //600 degrees
+    //Test through bore encoder is 4000 ticks
+    private static final double COUNTS_PER_REV = 751.8;
+
+    private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
+    private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees
+    private static double thirdPos = 240 * (COUNTS_PER_REV / 360.0); //240 degrees
+    private static double shoot = 600 * (COUNTS_PER_REV / 360.0); //600 degrees
     public String lastCommand = "None";
 
     private final MotorEx motor = new MotorEx("spindexer");
 
     private final ControlSystem controlSystem = ControlSystem.builder()
-            .posPid(0.5, 0, 0)
+            // Test robot PID
+            //.posPid(0.5, 0, 0)
+            .posPid(0.005, 0, 0)
             .build();
 
     public double getSpindexerPosition(){
@@ -54,9 +59,6 @@ public class SpindexerSub implements Subsystem {
     public void periodic() {
         motor.setPower(controlSystem.calculate(motor.getState()));
     }
-
-
-
 
 
 }
