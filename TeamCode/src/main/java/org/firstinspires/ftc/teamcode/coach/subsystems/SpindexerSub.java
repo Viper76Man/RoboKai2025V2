@@ -10,7 +10,7 @@ public class SpindexerSub implements Subsystem {
     public static final SpindexerSub INSTANCE = new SpindexerSub();
     private SpindexerSub(){}
 
-    //Test through bore encoder is 4000 ticks
+    //ELC through bore encoder is 4000 ticks
     private static final double COUNTS_PER_REV = 751.8;
 
     private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
