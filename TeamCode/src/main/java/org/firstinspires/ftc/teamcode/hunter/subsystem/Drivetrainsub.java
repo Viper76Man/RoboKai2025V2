@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.hunter.subsystems;
+package org.firstinspires.ftc.teamcode.hunter.subsystem;
 
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.MotorEx;
+import dev.nextftc.hardware.impl.ServoEx;
 
 public class Drivetrainsub implements Subsystem {
     public static final Drivetrainsub INSTANCE = new Drivetrainsub();
@@ -11,3 +12,5 @@ public class Drivetrainsub implements Subsystem {
     public final MotorEx frontRight = new MotorEx("fr").brakeMode();
     public final MotorEx backLeft = new MotorEx("bl").brakeMode().reversed();
     public final MotorEx backRight = new MotorEx("br").brakeMode();
+
+
