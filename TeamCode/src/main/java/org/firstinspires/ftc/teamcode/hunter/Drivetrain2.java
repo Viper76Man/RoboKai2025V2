@@ -29,8 +29,8 @@ public class Drivetrain2 extends NextFTCOpMode {
     @Override
     public void onStartButtonPressed() {
       Command driveControlled = new MecanumDriverControlled(
-                Drivetrainsub.INSTANCE.frontLeft,
-                Drivetrainsub.INSTANCE.frontRight,
+                 Drivetrainsub.INSTANCE.frontLeft,
+                 Drivetrainsub.INSTANCE.frontRight,
                 Drivetrainsub.INSTANCE.backLeft,
                 Drivetrainsub.INSTANCE.backRight,
                 Gamepads.gamepad1().leftStickY().negate(),
