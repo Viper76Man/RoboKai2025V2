@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.hunter.subsystem;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,7 +32,9 @@ public class ColorSensorSub implements Subsystem {
         //Less then 25mm means a ball is in
         return  distanceSensor.getDistance(DistanceUnit.MM);
     }
-
+    public boolean ballista(){
+        return  getDistance() < 25;
+    }
     public DetectedColor getDetectedColor(Telemetry telemetry){
         NormalizedRGBA colors = colorSensor.getNormalizedColors();
 

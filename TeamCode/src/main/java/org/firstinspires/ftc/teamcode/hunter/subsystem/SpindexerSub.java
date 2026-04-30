@@ -11,7 +11,7 @@ public class SpindexerSub implements Subsystem {
     private SpindexerSub(){}
 
     //ELC through bore encoder is 4000 ticks
-    private static final double COUNTS_PER_REV = 751.8;
+    private static final double COUNTS_PER_REV = 2000.0;
 
     private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
     private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees

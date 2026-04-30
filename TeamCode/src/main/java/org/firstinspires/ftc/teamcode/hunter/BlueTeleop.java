@@ -1,18 +1,16 @@
 package org.firstinspires.ftc.teamcode.hunter;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.IntakeMotorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.Servosub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
 
 import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.commands.Commands;
-import dev.nextftc.core.commands.utility.InstantCommand;
+import dev.nextftc.core.commands.delays.WaitUntil;
+import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
@@ -29,6 +27,7 @@ public class BlueTeleop extends NextFTCOpMode {
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeMotorSub.INSTANCE),
                 new SubsystemComponent(ShooterSub.INSTANCE),
+                new SubsystemComponent(ColorSensorSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -70,9 +69,14 @@ public class BlueTeleop extends NextFTCOpMode {
                 .whenBecomesTrue(ShooterSub.INSTANCE.Frontzone);
 //shooter
 
-
-
-
+//        new SequentialGroup(
+//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
+//        SpindexerSub.INSTANCE.toFirstPos,
+//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
+//        SpindexerSub.INSTANCE.toSecondPOS,
+//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
+//        SpindexerSub.INSTANCE.toThirdPos
+//    ).schedule();
 
 
 
