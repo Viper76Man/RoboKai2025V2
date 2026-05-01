@@ -40,6 +40,9 @@ public class SpindexerSub implements Subsystem {
     public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
     public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
 
+    public boolean isitatfirst() {
+        return Math.abs(getSpindexerPosition()-firstPos) <10;
+    }
     //public void toFirstPos(){
     //    lastCommand = "0 Degrees";
     //   new RunToPosition(controlSystem, firstPos).requires(this).schedule();

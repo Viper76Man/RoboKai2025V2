@@ -51,7 +51,7 @@ public class BlueTeleop extends NextFTCOpMode {
 
 
         Gamepads.gamepad1().a()
-                .whenBecomesTrue(Servosub.INSTANCE.Shot);
+                .whenBecomesTrue(Servosub.INSTANCE.Shot1);
 //Servo
 
         Gamepads.gamepad1().triangle()
