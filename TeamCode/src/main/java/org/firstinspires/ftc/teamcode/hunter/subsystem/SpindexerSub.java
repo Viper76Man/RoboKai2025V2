@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.hunter.subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.subsystems.Subsystem;
@@ -11,7 +13,7 @@ public class SpindexerSub implements Subsystem {
     private SpindexerSub(){}
 
     //ELC through bore encoder is 4000 ticks
-    private static final double COUNTS_PER_REV = 2000.0;
+    private static final double COUNTS_PER_REV = 751.8;
 
     private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
     private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees
@@ -24,7 +26,7 @@ public class SpindexerSub implements Subsystem {
     private final ControlSystem controlSystem = ControlSystem.builder()
             // Test robot PID
             //.posPid(0.5, 0, 0)
-            .posPid(0.005, 0, 0)
+            .posPid(0.010, 0, 0)
             .build();
 
     public double getSpindexerPosition(){
@@ -52,6 +54,8 @@ public class SpindexerSub implements Subsystem {
     @Override
     public void initialize() {
         //reset encoder
+        motor.setDirection(DcMotorSimple.Direction.REVERSE.ordinal());
+        // This I added to see if it is spinning the incorrect direction
         motor.zero();
     }
 
