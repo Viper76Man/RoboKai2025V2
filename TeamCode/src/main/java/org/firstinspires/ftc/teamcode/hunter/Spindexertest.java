@@ -4,18 +4,24 @@ package org.firstinspires.ftc.teamcode.hunter;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
+//import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
 
+import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.ftc.NextFTCOpMode;
+import dev.nextftc.ftc.components.BulkReadComponent;
 
 @TeleOp(name = "Practice_Servo")
 public class Spindexertest extends NextFTCOpMode {
 
     public Spindexertest() {
         addComponents(
-                new SubsystemComponent(SpindexerSub.INSTANCE)
+                new SubsystemComponent(SpindexerSub.INSTANCE),
+//                new SubsystemComponent(ColorSensorSub.INSTANCE),
+                BulkReadComponent.INSTANCE,
+                BindingsComponent.INSTANCE
         );
     }
     @Override

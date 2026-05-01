@@ -76,15 +76,15 @@ public class BlueTeleop extends NextFTCOpMode {
 //shooter
 
         new SequentialGroup(
-        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
         SpindexerSub.INSTANCE.toFirstPos,
-        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
         SpindexerSub.INSTANCE.toSecondPOS,
-        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
         SpindexerSub.INSTANCE.toThirdPos
     ).schedule();
 
-
+// This I looked up and it said that :: tells the thing what to do rather than .isBallin which would just say the answer at one time.
 
     }
     @Override
