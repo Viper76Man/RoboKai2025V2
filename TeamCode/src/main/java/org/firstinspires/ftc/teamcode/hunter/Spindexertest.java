@@ -21,13 +21,13 @@ public class Spindexertest extends NextFTCOpMode {
     @Override
     public void onStartButtonPressed() {
         Gamepads.gamepad1().triangle()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos());
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
         Gamepads.gamepad1().square()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS());
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
         Gamepads.gamepad1().cross()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos());
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
         Gamepads.gamepad1().circle()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot());
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
     }
 
 }

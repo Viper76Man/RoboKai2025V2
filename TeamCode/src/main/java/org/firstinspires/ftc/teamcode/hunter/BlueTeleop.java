@@ -12,6 +12,7 @@ import java.util.List;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
+import dev.nextftc.core.commands.delays.WaitUntil;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -74,14 +75,14 @@ public class BlueTeleop extends NextFTCOpMode {
                 .whenBecomesTrue(ShooterSub.INSTANCE.Frontzone);
 //shooter
 
-//        new SequentialGroup(
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toFirstPos,
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toSecondPOS,
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toThirdPos
-//    ).schedule();
+        new SequentialGroup(
+        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        SpindexerSub.INSTANCE.toFirstPos,
+        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        SpindexerSub.INSTANCE.toSecondPOS,
+        new WaitUntil(ColorSensorSub.INSTANCE::ballista),
+        SpindexerSub.INSTANCE.toThirdPos
+    ).schedule();
 
 
 
