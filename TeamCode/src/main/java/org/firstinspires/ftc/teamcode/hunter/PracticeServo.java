@@ -9,17 +9,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name = "Practice_Servo")
 public class PracticeServo extends LinearOpMode {
-private Servo myServo;
+    private Servo myServo;
 
     @Override
-            public void runOpMode() {
-     myServo = hardwareMap.get(Servo.class,"Servo");
-            waitForStart();
-            //this is telling the code to wait until the button is clicked corrected I looked this up
-    while (opModeIsActive())
-        if (gamepad1.a) {
-            myServo.setPosition(0.0);
-        } else if (gamepad1.b)
-            myServo.setPosition(1.0);
+    public void runOpMode() {
+        myServo = hardwareMap.get(Servo.class,"Servo");
+        waitForStart();
+        //this is telling the code to wait until the button is clicked corrected I looked this up
+        while (opModeIsActive())
+            if (gamepad1.a) {
+                myServo.setPosition(0.0);
+            } else if (gamepad1.b)
+                myServo.setPosition(1.0);
     }
 }
