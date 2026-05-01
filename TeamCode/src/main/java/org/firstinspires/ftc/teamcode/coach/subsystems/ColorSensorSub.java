@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.coach.subsystems;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,6 +14,8 @@ public class ColorSensorSub implements Subsystem {
     private ColorSensorSub(){}
     private RevColorSensorV3 colorSensor;
     private RevColorSensorV3 distanceSensor;
+
+    private static final double distanceThreshold = 25.0; //mm
 
     public enum DetectedColor {
         PURPLE,
@@ -33,6 +33,10 @@ public class ColorSensorSub implements Subsystem {
     public double getDistance(){
         //Less then 25mm means a ball is in
         return  distanceSensor.getDistance(DistanceUnit.MM);
+    }
+
+    public boolean isBallIn(){
+        return distanceSensor.getDistance(DistanceUnit.MM) < distanceThreshold;
     }
 
     public DetectedColor getDetectedColor(Telemetry telemetry){

@@ -12,7 +12,7 @@ import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@TeleOp(name = "Color Sensor Test", group = "Coach")
+@TeleOp(name = "Color Sensor Test Coach", group = "Coach")
 public class ColorSensorTest extends NextFTCOpMode {
     public ColorSensorTest(){
         addComponents(
@@ -25,9 +25,11 @@ public class ColorSensorTest extends NextFTCOpMode {
     @Override
     public void onUpdate(){
         List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
+        boolean ballIsIn = ColorSensorSub.INSTANCE.isBallIn();
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
+        telemetry.addData("Do We Have a Ball", ballIsIn);
         telemetry.update();
     }
 

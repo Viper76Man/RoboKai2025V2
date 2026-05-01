@@ -13,7 +13,7 @@ import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@TeleOp(name = "Color Sensor Test 2", group = "Coach")
+@TeleOp(name = "Color Sensor Test 2 Coach", group = "Coach")
     public class ColorSensorTest2 extends NextFTCOpMode {
         public ColorSensorTest2(){
             addComponents(
