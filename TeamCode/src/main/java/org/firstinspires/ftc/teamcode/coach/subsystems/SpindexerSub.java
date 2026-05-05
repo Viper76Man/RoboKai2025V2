@@ -11,19 +11,18 @@ public class SpindexerSub implements Subsystem {
     private SpindexerSub(){}
 
     //ELC through bore encoder is 4000 ticks
-    private static final double COUNTS_PER_REV = 751.8;
+    private static final double COUNTS_PER_REV = 4000.0;
 
-    private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
-    private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees
-    private static double thirdPos = 240 * (COUNTS_PER_REV / 360.0); //240 degrees
-    private static double shoot = 600 * (COUNTS_PER_REV / 360.0); //600 degrees
+    //private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
+    //private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees
+    //private static double thirdPos = 240 * (COUNTS_PER_REV / 360.0); //240 degrees
+    //private static double shoot = 600 * (COUNTS_PER_REV / 360.0); //600 degrees
     public String lastCommand = "None";
 
     private final MotorEx motor = new MotorEx("spindexer");
 
     private final ControlSystem controlSystem = ControlSystem.builder()
             // Test robot PID
-            //.posPid(0.5, 0, 0)
             .posPid(0.005, 0, 0)
             .build();
 
@@ -33,10 +32,10 @@ public class SpindexerSub implements Subsystem {
 
 
 
-    public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
-    public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
-    public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
-    public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
+    //public final Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
+    public final Command toSecondPOS = new RunToPosition(controlSystem, 2000).requires(this);
+    //public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
+    //public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
 
     //public void toFirstPos(){
     //    lastCommand = "0 Degrees";
@@ -52,7 +51,7 @@ public class SpindexerSub implements Subsystem {
     @Override
     public void initialize() {
         //reset encoder
-        motor.zero();
+        motor.zeroed();
     }
 
     @Override

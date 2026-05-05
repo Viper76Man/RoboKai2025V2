@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode.coach;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.coach.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.coach.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.coach.subsystems.MecanumDriveSub;
 
+import java.util.List;
+
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
@@ -19,6 +23,7 @@ public class RedTeleop extends NextFTCOpMode {
         addComponents(
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
+                new SubsystemComponent(ColorSensorSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -53,6 +58,12 @@ public class RedTeleop extends NextFTCOpMode {
 
     @Override
     public void onUpdate(){
+        List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
+        boolean ballIsIn = ColorSensorSub.INSTANCE.isBallIn();
+        telemetry.addData("Running Commands", currentSnapshot);
+        telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
+        telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
+        telemetry.addData("Do We Have a Ball", ballIsIn);
         telemetry.update();
     }
 }
