@@ -14,7 +14,7 @@ public class ColorSensorSub implements Subsystem {
     private ColorSensorSub(){}
     private RevColorSensorV3 colorSensor;
     private RevColorSensorV3 distanceSensor;
-
+    private static final double distanceThreshold= 25.0;
     public enum DetectedColor {
         PURPLE,
         GREEN,
@@ -32,8 +32,9 @@ public class ColorSensorSub implements Subsystem {
         //Less then 25mm means a ball is in
         return  distanceSensor.getDistance(DistanceUnit.MM);
     }
-    public boolean ballista(){
-        return  getDistance() < 25;
+    public boolean isBallin(){
+        return distanceSensor.getDistance(DistanceUnit.MM) < distanceThreshold;
+        // This is getting the data from the distance censor to evaluate if it is
     }
     public DetectedColor getDetectedColor(Telemetry telemetry){
         NormalizedRGBA colors = colorSensor.getNormalizedColors();

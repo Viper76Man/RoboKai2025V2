@@ -8,7 +8,10 @@ import org.firstinspires.ftc.teamcode.hunter.subsystem.Servosub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
 
+import java.util.List;
+
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.WaitUntil;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
@@ -22,7 +25,6 @@ import dev.nextftc.hardware.driving.MecanumDriverControlled;
 public class BlueTeleop extends NextFTCOpMode {
     public BlueTeleop() {
         addComponents(
-                new SubsystemComponent(org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE),
                 new SubsystemComponent(Servosub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeMotorSub.INSTANCE),
@@ -34,6 +36,7 @@ public class BlueTeleop extends NextFTCOpMode {
     }
     @Override
     public void onStartButtonPressed() {
+
         Command driveControlled = new MecanumDriverControlled(
                 org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE.frontLeft,
                 org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE.frontRight,
@@ -48,20 +51,23 @@ public class BlueTeleop extends NextFTCOpMode {
 
 
         Gamepads.gamepad1().a()
-                .whenBecomesTrue(Servosub.INSTANCE.Shot);
+                .whenBecomesTrue(Servosub.INSTANCE.Shot1);
 //Servo
-        Gamepads.gamepad1().dpadUp()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-        Gamepads.gamepad1().dpadRight()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-        Gamepads.gamepad1().dpadDown()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
-        Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
+
+//        Gamepads.gamepad1().triangle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+//        Gamepads.gamepad1().square()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+//        Gamepads.gamepad1().cross()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
+//        Gamepads.gamepad1().circle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
         //Spindexer
-        IntakeMotorSub.INSTANCE.intakeon.schedule();
+        IntakeMotorSub.INSTANCE.inIntake.schedule();
         Gamepads.gamepad1().leftBumper()
-                .whenBecomesTrue(IntakeMotorSub.INSTANCE.intakereverse);
+                .whenBecomesTrue(IntakeMotorSub.INSTANCE.outIntake);
+        Gamepads.gamepad1().rightStickButton()
+                        .whenBecomesTrue(IntakeMotorSub.INSTANCE.stopIntake);
 //intake
         Gamepads.gamepad1().rightBumper()
                 .whenBecomesTrue(ShooterSub.INSTANCE.Backzone);
@@ -69,21 +75,26 @@ public class BlueTeleop extends NextFTCOpMode {
                 .whenBecomesTrue(ShooterSub.INSTANCE.Frontzone);
 //shooter
 
-//        new SequentialGroup(
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toFirstPos,
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toSecondPOS,
-//        new WaitUntil(ColorSensorSub.INSTANCE.ballista()),
-//        SpindexerSub.INSTANCE.toThirdPos
-//    ).schedule();
+        new SequentialGroup(
+        SpindexerSub.INSTANCE.toFirstPos,
+        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+        SpindexerSub.INSTANCE.toSecondPOS,
+        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+        SpindexerSub.INSTANCE.toThirdPos
+    ).schedule();
 
+// This I looked up and it said that :: tells the thing what to do rather than .isBallin which would just say the answer at one time.
 
-
-
-
-
-
-
+    }
+    @Override
+    public void onUpdate(){
+        List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
+        telemetry.addData("Running Commands", currentSnapshot);
+        telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
+        telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
+        telemetry.addData("Do We Have a Ball", ColorSensorSub.INSTANCE.isBallin());
+        telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Motor Power", SpindexerSub.INSTANCE.getCurrentPower());
+        telemetry.update();
     }
 }

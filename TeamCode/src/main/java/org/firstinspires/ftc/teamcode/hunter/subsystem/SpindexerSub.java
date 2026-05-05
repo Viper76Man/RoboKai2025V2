@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.hunter.subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import dev.nextftc.control.ControlSystem;
+import dev.nextftc.control.KineticState;
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.utility.InstantCommand;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.controllable.RunToPosition;
 import dev.nextftc.hardware.impl.MotorEx;
@@ -11,7 +15,7 @@ public class SpindexerSub implements Subsystem {
     private SpindexerSub(){}
 
     //ELC through bore encoder is 4000 ticks
-    private static final double COUNTS_PER_REV = 2000.0;
+    private static final double COUNTS_PER_REV = 751.8;
 
     private static double firstPos = 0 * (COUNTS_PER_REV / 360.0); //0 degrees
     private static double secondPos = 120 * (COUNTS_PER_REV / 360.0); //120 degrees
@@ -19,7 +23,7 @@ public class SpindexerSub implements Subsystem {
     private static double shoot = 600 * (COUNTS_PER_REV / 360.0); //600 degrees
     public String lastCommand = "None";
 
-    private final MotorEx motor = new MotorEx("spindexer");
+    private final MotorEx motor = new MotorEx("spindexer").reversed();
 
     private final ControlSystem controlSystem = ControlSystem.builder()
             // Test robot PID
@@ -28,15 +32,20 @@ public class SpindexerSub implements Subsystem {
             .build();
 
     public double getSpindexerPosition(){
+
         return motor.getCurrentPosition();
     }
-
-
-
     public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
     public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
     public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
     public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
+
+
+
+
+    public double getCurrentPower() {
+        return motor.getPower();
+    }
 
     //public void toFirstPos(){
     //    lastCommand = "0 Degrees";
@@ -51,8 +60,8 @@ public class SpindexerSub implements Subsystem {
 
     @Override
     public void initialize() {
-        //reset encoder
         motor.zero();
+
     }
 
     @Override
