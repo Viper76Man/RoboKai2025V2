@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.IntakeMotorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.Servosub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub;
+import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub2;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
 
 import java.util.List;
@@ -48,31 +49,21 @@ public class BlueTeleop extends NextFTCOpMode {
         );
         driveControlled.schedule();
 //Drivetrain
-
-
-        Gamepads.gamepad1().a()
-                .whenBecomesTrue(Servosub.INSTANCE.Shot1);
-//Servo
-
-//        Gamepads.gamepad1().triangle()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-//        Gamepads.gamepad1().square()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-//        Gamepads.gamepad1().cross()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
-//        Gamepads.gamepad1().circle()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
-        //Spindexer
         IntakeMotorSub.INSTANCE.inIntake.schedule();
         Gamepads.gamepad1().leftBumper()
                 .whenBecomesTrue(IntakeMotorSub.INSTANCE.outIntake);
+        Gamepads.gamepad1().leftBumper()
+                        .whenBecomesFalse(IntakeMotorSub.INSTANCE.inIntake);
         Gamepads.gamepad1().rightStickButton()
                         .whenBecomesTrue(IntakeMotorSub.INSTANCE.stopIntake);
+        Gamepads.gamepad1().rightStickButton()
+                        .whenBecomesFalse(IntakeMotorSub.INSTANCE.inIntake);
 //intake
-        Gamepads.gamepad1().rightBumper()
-                .whenBecomesTrue(ShooterSub.INSTANCE.Backzone);
+        ShooterSub2.INSTANCE.Backzone2.schedule();
         Gamepads.gamepad1().touchpad()
-                .whenBecomesTrue(ShooterSub.INSTANCE.Frontzone);
+                .whenBecomesTrue(ShooterSub2.INSTANCE.FrontZone2);
+        Gamepads.gamepad1().touchpad()
+                .whenBecomesFalse(ShooterSub2.INSTANCE.Backzone2);
 //shooter
 
         new SequentialGroup(
@@ -84,6 +75,15 @@ public class BlueTeleop extends NextFTCOpMode {
     ).schedule();
 
 // This I looked up and it said that :: tells the thing what to do rather than .isBallin which would just say the answer at one time.
+
+//        Gamepads.gamepad1().triangle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+//        Gamepads.gamepad1().square()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+//        Gamepads.gamepad1().cross()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
+//        Gamepads.gamepad1().circle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
 
     }
     @Override

@@ -23,7 +23,7 @@ public class ShooterSub2 implements Subsystem {
                     Shooter2.setPower(1.0);
                 }
             }),
-            new Delay(1.0),
+            new Delay(10.0),
             Servosub.INSTANCE.Shot1,
             SpindexerSub.INSTANCE.toShoot
     );
@@ -35,7 +35,7 @@ public class ShooterSub2 implements Subsystem {
                     Shooter2.setPower(0.5);
                 }
             }),
-            new Delay(1.0),
+            new Delay(10.0),
             Servosub.INSTANCE.Shot1,
             SpindexerSub.INSTANCE.toShoot
     );
