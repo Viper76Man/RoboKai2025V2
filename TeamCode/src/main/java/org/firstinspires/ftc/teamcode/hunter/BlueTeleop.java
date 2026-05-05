@@ -60,7 +60,7 @@ public class BlueTeleop extends NextFTCOpMode {
                         .whenBecomesFalse(IntakeMotorSub.INSTANCE.inIntake);
 //intake
         ShooterSub2.INSTANCE.Backzone2.schedule();
-        Gamepads.gamepad1().touchpad()
+        Gamepads.gamepad1().rightBumper()
                 .whenBecomesTrue(ShooterSub2.INSTANCE.FrontZone2);
         Gamepads.gamepad1().touchpad()
                 .whenBecomesFalse(ShooterSub2.INSTANCE.Backzone2);

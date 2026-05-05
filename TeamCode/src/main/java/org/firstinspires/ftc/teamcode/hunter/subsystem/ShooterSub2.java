@@ -12,8 +12,8 @@ public class ShooterSub2 implements Subsystem {
 
     private ShooterSub2() {
     }
-    public final MotorEx Shooter1 = new MotorEx("ShooterMotor");
-    public final MotorEx Shooter2 = new MotorEx("FiringMotor");
+    public final MotorEx Shooter1 = new MotorEx("arcMotor");
+    public final MotorEx Shooter2 = new MotorEx("leftArc");
 
     public final Command Backzone2 = new SequentialGroup(
             new InstantCommand(new Runnable() {
