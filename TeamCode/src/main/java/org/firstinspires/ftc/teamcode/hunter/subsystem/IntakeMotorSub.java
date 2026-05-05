@@ -13,8 +13,8 @@ public class IntakeMotorSub implements Subsystem {
 
         private final MotorEx motor = new MotorEx("intake").reversed();
 
-        public final Command inIntake = new SetPower(motor, -1.0).requires(this);
-        public final  Command outIntake = new SetPower(motor, 1.0).requires(this);
+        public final Command inIntake = new SetPower(motor, 1.0).requires(this);
+        public final  Command outIntake = new SetPower(motor, -1.0).requires(this);
         public final Command stopIntake = new SetPower(motor, 0).requires(this);
 }
 

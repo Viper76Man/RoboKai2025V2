@@ -25,7 +25,6 @@ import dev.nextftc.hardware.driving.MecanumDriverControlled;
 public class BlueTeleop extends NextFTCOpMode {
     public BlueTeleop() {
         addComponents(
-                new SubsystemComponent(org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE),
                 new SubsystemComponent(Servosub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeMotorSub.INSTANCE),
@@ -37,6 +36,7 @@ public class BlueTeleop extends NextFTCOpMode {
     }
     @Override
     public void onStartButtonPressed() {
+
         Command driveControlled = new MecanumDriverControlled(
                 org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE.frontLeft,
                 org.firstinspires.ftc.teamcode.hunter.subsystem.Drivetrainsub.INSTANCE.frontRight,
@@ -54,14 +54,14 @@ public class BlueTeleop extends NextFTCOpMode {
                 .whenBecomesTrue(Servosub.INSTANCE.Shot1);
 //Servo
 
-        Gamepads.gamepad1().triangle()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-        Gamepads.gamepad1().square()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-        Gamepads.gamepad1().cross()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
-        Gamepads.gamepad1().circle()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
+//        Gamepads.gamepad1().triangle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+//        Gamepads.gamepad1().square()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+//        Gamepads.gamepad1().cross()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
+//        Gamepads.gamepad1().circle()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toShoot);
         //Spindexer
         IntakeMotorSub.INSTANCE.inIntake.schedule();
         Gamepads.gamepad1().leftBumper()
@@ -76,7 +76,6 @@ public class BlueTeleop extends NextFTCOpMode {
 //shooter
 
         new SequentialGroup(
-        new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
         SpindexerSub.INSTANCE.toFirstPos,
         new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
         SpindexerSub.INSTANCE.toSecondPOS,
@@ -93,6 +92,9 @@ public class BlueTeleop extends NextFTCOpMode {
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
+        telemetry.addData("Do We Have a Ball", ColorSensorSub.INSTANCE.isBallin());
+        telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Motor Power", SpindexerSub.INSTANCE.getCurrentPower());
         telemetry.update();
     }
 }
