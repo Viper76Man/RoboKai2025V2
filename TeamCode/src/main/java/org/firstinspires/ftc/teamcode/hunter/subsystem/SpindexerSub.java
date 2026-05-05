@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hunter.subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import dev.nextftc.control.ControlSystem;
@@ -40,7 +41,8 @@ public class SpindexerSub implements Subsystem {
     public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
     public Command toShoot = new RunToPosition(controlSystem, shoot).requires(this);
 
-
+    public Command toZero = new RunToPosition(controlSystem, 0).requires(this);
+    public Command toMid = new RunToPosition(controlSystem, 2000).requires(this);
 
 
     public double getCurrentPower() {
@@ -60,7 +62,8 @@ public class SpindexerSub implements Subsystem {
 
     @Override
     public void initialize() {
-        motor.zero();
+        motor.getMotor().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        controlSystem.setGoal(new KineticState(0));
 
     }
 

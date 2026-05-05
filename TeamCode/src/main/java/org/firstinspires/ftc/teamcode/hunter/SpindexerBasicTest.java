@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
+import org.firstinspires.ftc.teamcode.hunter.subsystem.Spindexersub2;
 
 import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
@@ -28,13 +29,8 @@ public class SpindexerBasicTest extends NextFTCOpMode {
     }
     @Override
     public void onStartButtonPressed() {
-        new SequentialGroup(
-                SpindexerSub.INSTANCE.toFirstPos,
-                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toSecondPOS,
-                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toThirdPos
-        ).schedule();
+        Gamepads.gamepad1().square()
+                .whenBecomesTrue(Spindexersub2.INSTANCE.toMid);
 
 
     }

@@ -25,7 +25,8 @@ public class ShooterSub implements Subsystem {
                 }
             }),
             new Delay(1.0),
-            Servosub.INSTANCE.Shot1
+            SpindexerSub.INSTANCE.toShoot
+
     );
     public final Command Frontzone = new SequentialGroup(
             new InstantCommand(new Runnable() {
@@ -36,7 +37,8 @@ public class ShooterSub implements Subsystem {
         }
     }),
         new Delay(1.0),
-        Servosub.INSTANCE.Shot1
+            SpindexerSub.INSTANCE.toShoot
+
 
     );
 // The worst part for me has been my syntax errors. I have had Ai fix much of those
