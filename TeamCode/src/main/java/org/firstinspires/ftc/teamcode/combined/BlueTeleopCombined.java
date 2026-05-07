@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.combined;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
+import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
@@ -27,6 +28,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
+                new SubsystemComponent(ColorSensorSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -80,6 +82,8 @@ public class BlueTeleopCombined extends NextFTCOpMode {
     public void onUpdate(){
         List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
         telemetry.addData("Running Commands", currentSnapshot);
+        telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
+        telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.update();
     }
 
