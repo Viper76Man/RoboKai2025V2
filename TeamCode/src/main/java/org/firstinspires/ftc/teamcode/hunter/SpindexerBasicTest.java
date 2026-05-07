@@ -16,7 +16,7 @@ import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@TeleOp(name = "Spindexer Basic Test", group = "Coach")
+@TeleOp(name = "Spindexer Basic Test Hunter")
 public class SpindexerBasicTest extends NextFTCOpMode {
 
     public SpindexerBasicTest() {
