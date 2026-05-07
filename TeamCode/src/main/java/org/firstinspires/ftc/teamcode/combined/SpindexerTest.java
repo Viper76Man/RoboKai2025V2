@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode.combined;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.combined.subsystems.Spindexer;
+import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 
+import java.util.List;
+
+import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.ftc.Gamepads;
@@ -15,7 +18,7 @@ public class SpindexerTest extends NextFTCOpMode {
 
     public SpindexerTest() {
         addComponents(
-                new SubsystemComponent(Spindexer.INSTANCE),
+                new SubsystemComponent(SpindexerSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -30,18 +33,19 @@ public class SpindexerTest extends NextFTCOpMode {
         telemetry.addLine("Running");
 
         Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(Spindexer.INSTANCE.toFirstPos);
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
 
         Gamepads.gamepad1().dpadUp()
-                .whenBecomesTrue(Spindexer.INSTANCE.toSecondPOS);
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
 
         Gamepads.gamepad1().dpadRight()
-                .whenBecomesTrue(Spindexer.INSTANCE.toThirdPos);
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
 
     }
 
     public void onUpdate(){
-
+            List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
+            telemetry.addData("Running Commands", currentSnapshot);
             telemetry.update();
         }
 
