@@ -74,6 +74,8 @@ public class BlueTeleop extends NextFTCOpMode {
         SpindexerSub.INSTANCE.toThirdPos
     ).schedule();
 
+        Gamepads.gamepad1().square()
+                .whenBecomesTrue(Servosub.INSTANCE.upramp);
 // This I looked up and it said that :: tells the thing what to do rather than .isBallin which would just say the answer at one time.
 
 //        Gamepads.gamepad1().triangle()

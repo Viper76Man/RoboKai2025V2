@@ -13,13 +13,13 @@ public class PracticeServo extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        myServo = hardwareMap.get(Servo.class,"Servo");
+        myServo = hardwareMap.get(Servo.class,"Shotservo");
         waitForStart();
         //this is telling the code to wait until the button is clicked corrected I looked this up
         while (opModeIsActive())
-            if (gamepad1.a) {
+            if (gamepad1.square) {
                 myServo.setPosition(0.0);
-            } else if (gamepad1.b)
-                myServo.setPosition(1.0);
+            } else if (gamepad1.circle)
+                myServo.setPosition(.72);
     }
 }

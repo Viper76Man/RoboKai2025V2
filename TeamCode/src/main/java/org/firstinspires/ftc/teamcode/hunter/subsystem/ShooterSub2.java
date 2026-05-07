@@ -24,7 +24,7 @@ public class ShooterSub2 implements Subsystem {
                 }
             }),
             new Delay(10.0),
-            Servosub.INSTANCE.Shot1,
+
             SpindexerSub.INSTANCE.toShoot
     );
     public final Command FrontZone2 = new SequentialGroup(
@@ -36,7 +36,7 @@ public class ShooterSub2 implements Subsystem {
                 }
             }),
             new Delay(10.0),
-            Servosub.INSTANCE.Shot1,
+
             SpindexerSub.INSTANCE.toShoot
     );
 
