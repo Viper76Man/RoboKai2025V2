@@ -21,7 +21,7 @@ public class FlywheelSub implements Subsystem {
             .build();
 
     public final Command flywheelOff = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
-    public final Command flywheelZone1 = new RunToVelocity(controller, 500.0).requires(this).named("FlywheelOn");
+    public final Command flywheelZone1 = new RunToVelocity(controller, 500.0).requires(this).named("FlywheelZone1");
 
     @Override
     public void periodic() {
