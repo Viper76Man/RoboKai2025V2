@@ -7,9 +7,7 @@ import dev.nextftc.hardware.positionable.SetPosition;
 
 public class RampSub implements Subsystem {
     public static final RampSub INSTANCE = new RampSub();
-
-    private RampSub() {
-    }
+    private RampSub() {}
 
     private ServoEx servo = new ServoEx("flicker");
 
