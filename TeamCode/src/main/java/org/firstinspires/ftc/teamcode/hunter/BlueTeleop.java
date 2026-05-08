@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.IntakeMotorSub;
-import org.firstinspires.ftc.teamcode.hunter.subsystem.Servosub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub2;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;

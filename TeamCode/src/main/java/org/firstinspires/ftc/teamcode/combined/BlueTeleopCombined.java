@@ -6,6 +6,7 @@ import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -29,6 +31,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
+                new SubsystemComponent(Servosub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -64,7 +67,11 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
 
         Gamepads.gamepad1().dpadDown()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toShootPos);
+                .whenBecomesTrue(new SequentialGroup(
+                                Servosub.INSTANCE.upramp,
+                        new Delay(1),
+                        SpindexerSub.INSTANCE.toShootPos
+                        ));
 
         Command driveControlled = new MecanumDriverControlled(
                 MecanumDriveSub.INSTANCE.frontLeft,
