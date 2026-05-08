@@ -15,6 +15,7 @@ import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -70,7 +71,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 .whenBecomesTrue(new SequentialGroup(
                                 Servosub.INSTANCE.upramp,
                         new Delay(1),
-                        SpindexerSub.INSTANCE.toShootPos
+                            Shot()
                         ));
 
         Command driveControlled = new MecanumDriverControlled(
@@ -109,6 +110,13 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 IntakeSub.INSTANCE.stopIntake
         );
     }
-
+    private Command Shot(){
+        return new ParallelGroup(
+                SpindexerSub.INSTANCE.toThirdPos,
+                SpindexerSub.INSTANCE.toFouthPos,
+                SpindexerSub.INSTANCE.toFifthPos,
+                SpindexerSub.INSTANCE.toShootPos
+        );
+    }
 }
 

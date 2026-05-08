@@ -17,7 +17,11 @@ public class SpindexerSub implements Subsystem {
     private final double firstPos = 0;  //0 degrees
     private final double secondPos = 250.6; //120 degrees
     private final double thirdPos = 501.2;  //240 degrees
-    private final double shootPos = -1503.6; //600 degrees
+    private final double forthPos = 751.8;  //360
+    private final double fifthPos = 1002.4; //480
+    private final double sixthPos = 1503.6; //600 degrees
+    private final double ShootPos = 1503.6;  // 720 degrees
+
 
 
 
@@ -32,9 +36,11 @@ public class SpindexerSub implements Subsystem {
     public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
     public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
     public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
-    public Command toShootPos = new RunToPosition(controlSystem, shootPos).requires(this);
+    public Command toShootPos = new RunToPosition(controlSystem, ShootPos).requires(this);
 
-
+    public Command toFifthPos = new RunToPosition(controlSystem, fifthPos).requires(this);
+    public Command toThridPos = new RunToPosition(controlSystem, forthPos).requires(this);
+    public Command toFouthPos = new RunToPosition(controlSystem, thirdPos).requires(this);
     @Override
     public void initialize() {
         //reset encoder
