@@ -4,10 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.hunter.ColorSensor;
 
 import java.util.List;
 
@@ -15,6 +18,7 @@ import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
+import dev.nextftc.core.commands.delays.WaitUntil;
 import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
@@ -33,6 +37,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
                 new SubsystemComponent(Servosub.INSTANCE),
+                new SubsystemComponent(RGBSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -70,10 +75,19 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         Gamepads.gamepad1().dpadDown()
                 .whenBecomesTrue(new SequentialGroup(
                                 Servosub.INSTANCE.upramp,
+                        new Delay(0.5),
+                            Shot(),
                         new Delay(1),
-                            Shot()
+                        Servosub.INSTANCE.downramp,
+                        new Delay(0.1),
+                        SpindexerSub.INSTANCE.toFirstPos
                         ));
 
+
+        Gamepads.gamepad1().triangle()
+                .whenBecomesTrue(new SequentialGroup(
+                        FlywheelSub.INSTANCE.flywheelZone1
+                ));
         Command driveControlled = new MecanumDriverControlled(
                 MecanumDriveSub.INSTANCE.frontLeft,
                 MecanumDriveSub.INSTANCE.frontRight,
@@ -84,6 +98,20 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 Gamepads.gamepad1().rightStickX()
         );
         driveControlled.schedule();
+
+
+        new SequentialGroup(
+                SpindexerSub.INSTANCE.toFirstPos,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                SpindexerSub.INSTANCE.toSecondPOS,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                SpindexerSub.INSTANCE.toThirdPos,
+                RGBSub.INSTANCE.orange,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                RGBSub.INSTANCE.green
+                        ).schedule();
+
+
     }
 
     @Override
@@ -111,12 +139,13 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         );
     }
     private Command Shot(){
-        return new ParallelGroup(
+        return new SequentialGroup(
                 SpindexerSub.INSTANCE.toThirdPos,
                 SpindexerSub.INSTANCE.toFouthPos,
                 SpindexerSub.INSTANCE.toFifthPos,
                 SpindexerSub.INSTANCE.toShootPos
         );
     }
+
 }
 
