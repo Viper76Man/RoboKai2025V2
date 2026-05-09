@@ -6,6 +6,7 @@ import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
@@ -38,6 +39,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
                 new SubsystemComponent(Servosub.INSTANCE),
                 new SubsystemComponent(RGBSub.INSTANCE),
+                new SubsystemComponent(LiftSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -83,7 +85,11 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                         SpindexerSub.INSTANCE.toFirstPos
                         ));
 
-
+        Gamepads.gamepad1().circle()
+                        .whenBecomesTrue(LiftSub.INSTANCE.up);
+        // I need to look at the axons and make sure that they are
+        Gamepads.gamepad1().triangle()
+                        .whenBecomesTrue(LiftSub.INSTANCE.down);
         Gamepads.gamepad1().triangle()
                 .whenBecomesTrue(new SequentialGroup(
                         FlywheelSub.INSTANCE.flywheelZone1
