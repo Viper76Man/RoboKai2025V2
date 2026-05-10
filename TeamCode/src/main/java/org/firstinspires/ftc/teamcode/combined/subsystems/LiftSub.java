@@ -12,10 +12,10 @@ public class LiftSub implements Subsystem {
     public static final double extendDown = 0.0;
     private LiftSub() {}
 
-    public final ServoEx lefta = new ServoEx("LiftA");
-    public final ServoEx leftb = new ServoEx("LeftB").reversed();
-    public final ServoEx rightA = new ServoEx("RightA");
-    public final ServoEx rightB = new ServoEx("RightB").reversed();
+    public final ServoEx lefta = new ServoEx("leftLift1");
+    public final ServoEx leftb = new ServoEx("leftLift2").reversed();
+    public final ServoEx rightA = new ServoEx("rightLift");
+    public final ServoEx rightB = new ServoEx("rightLift2").reversed();
 
 // I reversed the b ones which will have to be the ones that are flipped so I need to figure out what that is when I look at it next.
     public final Command up = new ParallelGroup(

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.hunter.ColorSensor;
 
@@ -55,12 +56,15 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addLine("Running");
 
         startIntake().schedule();
+        ShooterSub.INSTANCE.Frontzone.schedule();
+
+        loadingSequence().schedule();
 
         Gamepads.gamepad1().cross()
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
-        Gamepads.gamepad1().circle()
-                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake);
+//        Gamepads.gamepad1().circle()
+//                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake);
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(IntakeSub.INSTANCE.stopIntake);
@@ -77,12 +81,13 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         Gamepads.gamepad1().dpadDown()
                 .whenBecomesTrue(new SequentialGroup(
                                 Servosub.INSTANCE.upramp,
-                        new Delay(0.5),
-                            Shot(),
                         new Delay(1),
+                            Shot(),
+                        new Delay(0.5),
                         Servosub.INSTANCE.downramp,
-                        new Delay(0.1),
-                        SpindexerSub.INSTANCE.toFirstPos
+                        new Delay(0.5),
+                        RGBSub.INSTANCE.off,
+                        loadingSequence()
                         ));
 
         Gamepads.gamepad1().circle()
@@ -90,10 +95,9 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         // I need to look at the axons and make sure that they are
         Gamepads.gamepad1().triangle()
                         .whenBecomesTrue(LiftSub.INSTANCE.down);
-        Gamepads.gamepad1().triangle()
-                .whenBecomesTrue(new SequentialGroup(
-                        FlywheelSub.INSTANCE.flywheelZone1
-                ));
+
+
+//                ));
         Command driveControlled = new MecanumDriverControlled(
                 MecanumDriveSub.INSTANCE.frontLeft,
                 MecanumDriveSub.INSTANCE.frontRight,
@@ -106,17 +110,6 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         driveControlled.schedule();
 
 
-        new SequentialGroup(
-                SpindexerSub.INSTANCE.toFirstPos,
-                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toSecondPOS,
-                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toThirdPos,
-                RGBSub.INSTANCE.orange,
-                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                RGBSub.INSTANCE.green
-                        ).schedule();
-
 
     }
 
@@ -126,11 +119,13 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
+        telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
         telemetry.update();
     }
 
     public void onStop(){
         stopIntake().schedule();
+
     }
 
     private Command startIntake(){
@@ -146,12 +141,21 @@ public class BlueTeleopCombined extends NextFTCOpMode {
     }
     private Command Shot(){
         return new SequentialGroup(
-                SpindexerSub.INSTANCE.toThirdPos,
-                SpindexerSub.INSTANCE.toFouthPos,
-                SpindexerSub.INSTANCE.toFifthPos,
+
                 SpindexerSub.INSTANCE.toShootPos
         );
     }
-
+    public Command loadingSequence() {
+        return new SequentialGroup(
+                SpindexerSub.INSTANCE.toFirstPos,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                SpindexerSub.INSTANCE.toSecondPOS,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                SpindexerSub.INSTANCE.toThirdPos,
+                RGBSub.INSTANCE.orange,
+                new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
+                RGBSub.INSTANCE.green
+        );
+    }
 }
 

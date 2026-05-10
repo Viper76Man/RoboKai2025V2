@@ -11,8 +11,8 @@ public class FlywheelSub implements Subsystem {
     public static final FlywheelSub INSTANCE = new FlywheelSub();
     private FlywheelSub(){}
 
-    private final MotorEx motorl = new MotorEx("whatever the left motor is");
-    private final MotorEx motorr = new MotorEx("whatever the right motor is").reversed();
+    private final MotorEx motorl = new MotorEx("leftArc");
+    private final MotorEx motorr = new MotorEx("arcMotor").reversed();
     private final MotorGroup motorGroup = new MotorGroup(motorl, motorr);
 
     private final ControlSystem controller = ControlSystem.builder()
