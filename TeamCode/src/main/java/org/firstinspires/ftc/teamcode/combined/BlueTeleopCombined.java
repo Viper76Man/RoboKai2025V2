@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.combined;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
+import org.firstinspires.ftc.robotcore.internal.network.SendOnceRunnable;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Adjustablehoodtestsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
@@ -41,6 +43,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(Servosub.INSTANCE),
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
+                new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -59,28 +62,40 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         ShooterSub.INSTANCE.Frontzone.schedule();
 
         loadingSequence().schedule();
+        FlywheelSub.INSTANCE.flywheelNear.schedule();
 
         Gamepads.gamepad1().cross()
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
-//        Gamepads.gamepad1().circle()
-//                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake);
+        Gamepads.gamepad1().leftTrigger().atLeast(0.3)
+                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake);
 
         Gamepads.gamepad1().square()
-                .whenBecomesTrue(IntakeSub.INSTANCE.stopIntake);
-
-        Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-
-        Gamepads.gamepad1().dpadUp()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-
-        Gamepads.gamepad1().dpadRight()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
-
-        Gamepads.gamepad1().dpadDown()
                 .whenBecomesTrue(new SequentialGroup(
-                                Servosub.INSTANCE.upramp,
+                        FlywheelSub.INSTANCE.flywheelOff,
+                        new Delay(0.2),
+                        IntakeSub.INSTANCE.stopIntake
+
+                ));
+        Gamepads.gamepad1().dpadUp()
+                        .whenBecomesTrue(Adjustablehoodtestsub.INSTANCE::adjustmentup);
+        Gamepads.gamepad1().dpadDown()
+                        .whenBecomesTrue(Adjustablehoodtestsub.INSTANCE::adjustmentdown);
+
+//        Gamepads.gamepad1().dpadLeft()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+//
+//        Gamepads.gamepad1().dpadUp()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+//
+//        Gamepads.gamepad1().dpadRight()
+//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
+
+        Gamepads.gamepad1().rightTrigger().atLeast(0.3)
+                .whenBecomesTrue(new SequentialGroup(
+                        SpindexerSub.INSTANCE.toThirdPos,
+                        new Delay(0.5),
+                        Servosub.INSTANCE.upramp,
                         new Delay(1),
                             Shot(),
                         new Delay(0.5),
@@ -90,11 +105,16 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                         loadingSequence()
                         ));
 
-        Gamepads.gamepad1().circle()
-                        .whenBecomesTrue(LiftSub.INSTANCE.up);
+//        Gamepads.gamepad1().circle()
+//                        .whenBecomesTrue(LiftSub.INSTANCE.up);
         // I need to look at the axons and make sure that they are
-        Gamepads.gamepad1().triangle()
-                        .whenBecomesTrue(LiftSub.INSTANCE.down);
+
+//        Gamepads.gamepad1().triangle()
+//                        .whenBecomesTrue(LiftSub.INSTANCE.down);
+        Gamepads.gamepad1().rightBumper()
+                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelNear);
+        Gamepads.gamepad1().leftBumper()
+                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelFar);
 
 
 //                ));
@@ -120,11 +140,15 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
+        telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.update();
     }
 
     public void onStop(){
         stopIntake().schedule();
+        stopShooter().schedule();
+
 
     }
 
@@ -143,6 +167,11 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         return new SequentialGroup(
 
                 SpindexerSub.INSTANCE.toShootPos
+        );
+    }
+    private Command stopShooter(){
+        return new SequentialGroup(
+                FlywheelSub.INSTANCE.flywheelOff
         );
     }
     public Command loadingSequence() {

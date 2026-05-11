@@ -18,7 +18,7 @@ public class SpindexerSub implements Subsystem {
     private final double secondPos = 250.6; //120 degrees
     private final double thirdPos = 501.2;  //240 degrees
 
-    private final double ShootPos = -1503.6;  // 720 degrees
+    private final double ShootPos = -751.8;  // 720 degrees
 
 
 

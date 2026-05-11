@@ -18,11 +18,12 @@ public class FlywheelSub implements Subsystem {
     private final ControlSystem controller = ControlSystem.builder()
             .velPid(0.005, 0, 0)
             .basicFF(0.01, 0.02, 0.03)
+            //What does this change?
             .build();
 
     public final Command flywheelOff = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
-    public final Command flywheelZone1 = new RunToVelocity(controller, 500.0).requires(this).named("FlywheelZone1");
-
+    public final Command flywheelNear = new RunToVelocity(controller, 2333.34).requires(this).named("FlywheelNear");
+    public final Command flywheelFar = new RunToVelocity(controller,2893.34).requires(this).named("FlywheelFar");
     @Override
     public void periodic() {
         motorGroup.setPower(controller.calculate(motorGroup.getState()));
