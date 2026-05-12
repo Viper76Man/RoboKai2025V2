@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.combined;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
-import org.firstinspires.ftc.robotcore.internal.network.SendOnceRunnable;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Adjustablehoodtestsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
@@ -14,16 +12,13 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
-import org.firstinspires.ftc.teamcode.hunter.ColorSensor;
 
 import java.util.List;
 
-import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
-import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -77,30 +72,34 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                         IntakeSub.INSTANCE.stopIntake
 
                 ));
-        Gamepads.gamepad1().dpadUp()
-                        .whenBecomesTrue(Adjustablehoodtestsub.INSTANCE::adjustmentup);
-        Gamepads.gamepad1().dpadDown()
-                        .whenBecomesTrue(Adjustablehoodtestsub.INSTANCE::adjustmentdown);
-
-//        Gamepads.gamepad1().dpadLeft()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-//
 //        Gamepads.gamepad1().dpadUp()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-//
-//        Gamepads.gamepad1().dpadRight()
-//                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
+//                        .whenBecomesTrue(new SequentialGroup(
+//                                raise()
+//                        ));
+//        Gamepads.gamepad1().dpadDown()
+//                        .whenBecomesTrue(new SequentialGroup(
+//                                lower()
+//                        ));
+
+        Gamepads.gamepad1().dpadLeft()
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
+
+        Gamepads.gamepad1().dpadUp()
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
+
+        Gamepads.gamepad1().dpadRight()
+                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
 
         Gamepads.gamepad1().rightTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup(
                         SpindexerSub.INSTANCE.toThirdPos,
-                        new Delay(0.5),
+                        new Delay(0.2),
                         Servosub.INSTANCE.upramp,
-                        new Delay(1),
+                        new Delay(0.6),
                             Shot(),
-                        new Delay(0.5),
+                        new Delay(0.4),
                         Servosub.INSTANCE.downramp,
-                        new Delay(0.5),
+                        new Delay(0.2),
                         RGBSub.INSTANCE.off,
                         loadingSequence()
                         ));
@@ -165,7 +164,6 @@ public class BlueTeleopCombined extends NextFTCOpMode {
     }
     private Command Shot(){
         return new SequentialGroup(
-
                 SpindexerSub.INSTANCE.toShootPos
         );
     }
@@ -186,5 +184,18 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 RGBSub.INSTANCE.green
         );
     }
+//    private Command raise () {
+//        Adjustablehoodtestsub.INSTANCE.adjustmentup();
+//        return null;
+//    }
+//    private Command lower () {
+//        Adjustablehoodtestsub.INSTANCE.adjustmentdown();
+//
+//        return null;
+//    }
 }
+
+
+
+
 
