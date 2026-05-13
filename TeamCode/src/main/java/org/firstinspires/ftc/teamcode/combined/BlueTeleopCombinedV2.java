@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -39,6 +41,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(FlywheelSub.INSTANCE),
+                new SubsystemComponent(VisionSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -59,8 +62,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         //Start intake without group
         //IntakeSub.INSTANCE.inIntake.schedule();
 
-        //Not needed
-        //loadingSequence().schedule();
+        loadingSequence().schedule();
 
         //Start flywheel without group
         //FlywheelSub.INSTANCE.flywheelNear.schedule();
@@ -96,17 +98,12 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
 
         Gamepads.gamepad1().rightTrigger().atLeast(0.3)
-                .whenBecomesTrue(new SequentialGroup(
-                        //SpindexerSub.INSTANCE.toThirdPos,
-                        //new Delay(0.2),
-                        Servosub.INSTANCE.upramp,
-                        new Delay(0.6),
-                        SpindexerSub.INSTANCE.toShootPos,
-                        //new Delay(5.0),
-                        Servosub.INSTANCE.downramp,
-                        //new Delay(0.2),
-                        RGBSub.INSTANCE.off
+                .whenBecomesTrue(new SequentialGroup (
+                            shotSequence()
                         ));
+                        //.whenBecomesFalse(new SequentialGroup(
+                        //    loadingSequence()
+                        //));
 
 
 //        Gamepads.gamepad1().circle()
@@ -146,13 +143,11 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
+        telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.update();
     }
 
     public void onStop(){
-        stopIntake().schedule();
-        stopShooter().schedule();
-
 
     }
 
@@ -163,21 +158,21 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         );
     }*/
 
-    private Command stopIntake(){
+    /*private Command stopIntake(){
         return new SequentialGroup(
                 IntakeSub.INSTANCE.stopIntake
         );
-    }
+    }*/
     /*private Command Shot(){
         return new SequentialGroup(
                 SpindexerSub.INSTANCE.toShootPos
         );
     }*/
-    private Command stopShooter(){
+    /*private Command stopShooter(){
         return new SequentialGroup(
                 FlywheelSub.INSTANCE.flywheelOff
         );
-    }
+    }*/
     private Command loadingSequence() {
         return new SequentialGroup(
                 SpindexerSub.INSTANCE.toFirstPos,
@@ -191,8 +186,14 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         );
     }
 
-    private Command letShoot(){
-
+    private Command shotSequence(){
+        return  new SequentialGroup(
+                Servosub.INSTANCE.upramp,
+                new Delay(0.6),
+                SpindexerSub.INSTANCE.toShootPos,
+                Servosub.INSTANCE.downramp,
+                RGBSub.INSTANCE.off
+        );
     }
 
 
