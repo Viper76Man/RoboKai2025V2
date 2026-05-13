@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 
 import java.util.List;
@@ -39,6 +38,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
+                new SubsystemComponent(FlywheelSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -54,7 +54,6 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addLine("Running");
 
         startIntake().schedule();
-        ShooterSub.INSTANCE.Frontzone.schedule();
 
         loadingSequence().schedule();
         FlywheelSub.INSTANCE.flywheelNear.schedule();
