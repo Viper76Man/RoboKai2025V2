@@ -73,6 +73,12 @@ public class ColorSensorSub implements Subsystem {
         else {
             return DetectedColor.UNKNOWN;
         }
+//        boolean [] placements = new boolean[3]
+//                int count = 0;
 
+
+        //True boolean is green
+        //False boolean is Purple
     }
+
 }

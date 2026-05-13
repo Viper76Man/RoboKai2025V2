@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(FlywheelSub.INSTANCE),
+                new SubsystemComponent(VisionSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -126,6 +128,18 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 Gamepads.gamepad1().rightStickX()
         );
         driveControlled.schedule();
+    if(VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
+        FlywheelSub.INSTANCE.flywheelNear.schedule();
+    }
+    else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1)
+        {
+            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+        }
+    else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
+    {
+        FlywheelSub.INSTANCE.flywheelFar.schedule();
+    }
+
 
 
 

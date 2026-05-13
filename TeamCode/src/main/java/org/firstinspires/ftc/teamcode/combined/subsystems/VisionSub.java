@@ -17,16 +17,24 @@ public class VisionSub implements Subsystem {
     private double cameraAngle = 6.1;
     private double goalHeight = 74.95;
     private double distance = 0;
+    private static final double zone0MxCm = 90;
+
     private static final double zone1MaxCm = 200;
+    // Max shot that we can have 177.81
     private static final double zone2MaxCm = 400;
 
     public enum DetectedZone {
+        ZONE0,
         ZONE1,
         ZONE2,
-        ZONE3,
         UNKOWN
     }
-
+public DetectedZone getDectectedZone(){
+        if (distance <= 0) return DetectedZone.UNKOWN;
+        if (distance <= zone0MxCm) return DetectedZone.ZONE0;
+        if (distance <= zone1MaxCm) return DetectedZone.ZONE1;
+        if (distance <= zone2MaxCm) return DetectedZone.ZONE2;
+}
 
     @Override
     public void initialize(){
