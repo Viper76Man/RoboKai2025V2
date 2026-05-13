@@ -13,10 +13,20 @@ public class VisionSub implements Subsystem {
     private VisionSub(){}
 
     private Limelight3A limeLight;
-    private double CAMERA_HEIGHT_CM = 40;
-    private double CAMERA_ANGLE = 3.1;
-    private double GOAL_HEIGHT = 74.95;
+    private double cameraHeightCm = 40;
+    private double cameraAngle = 6.1;
+    private double goalHeight = 74.95;
     private double distance = 0;
+    private static final double zone1MaxCm = 200;
+    private static final double zone2MaxCm = 400;
+
+    public enum DetectedZone {
+        ZONE1,
+        ZONE2,
+        ZONE3,
+        UNKOWN
+    }
+
 
     @Override
     public void initialize(){
@@ -34,8 +44,8 @@ public class VisionSub implements Subsystem {
     }
 
     public double getDistanceGoal(double ty){
-        double angleToTarget = CAMERA_ANGLE + ty;
-        double heightDifference = GOAL_HEIGHT - CAMERA_HEIGHT_CM;
+        double angleToTarget = cameraAngle + ty;
+        double heightDifference = goalHeight - cameraHeightCm;
         return heightDifference / Math.tan(Math.toRadians(angleToTarget));
     }
 

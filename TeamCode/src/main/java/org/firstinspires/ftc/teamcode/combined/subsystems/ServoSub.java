@@ -5,9 +5,9 @@ import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.ServoEx;
 import dev.nextftc.hardware.positionable.SetPosition;
 
-public class Servosub implements Subsystem {
-public static final Servosub INSTANCE = new Servosub();
-private Servosub() {}
+public class ServoSub implements Subsystem {
+public static final ServoSub INSTANCE = new ServoSub();
+private ServoSub() {}
     public final ServoEx myServo = new ServoEx("Shotservo");
     public final Command upramp = new SetPosition(myServo, .80).requires(this);
     public final Command downramp = new SetPosition(myServo, 0.53).requires(this);
