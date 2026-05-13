@@ -34,6 +34,7 @@ public DetectedZone getDectectedZone(){
         if (distance <= zone0MxCm) return DetectedZone.ZONE0;
         if (distance <= zone1MaxCm) return DetectedZone.ZONE1;
         if (distance <= zone2MaxCm) return DetectedZone.ZONE2;
+        return DetectedZone.UNKOWN;
 }
 
     @Override
