@@ -38,13 +38,13 @@ public class SpindexerSub implements Subsystem {
         return motor.getCurrentPosition();
     }
 
-    public Command toFirstPos = new RunToPosition(controlSystem, firstPos).requires(this);
-    public Command toSecondPOS = new RunToPosition(controlSystem, secondPos).requires(this);
-    public Command toThirdPos = new RunToPosition(controlSystem, thirdPos).requires(this);
-    public Command toFourthPos = new RunToPosition(controlSystem, fourthPos).requires(this);
-    public Command toFifthPos = new RunToPosition(controlSystem, fifthPos).requires(this);
-    public Command toShootPos = new RunToPosition(controlSystem, ShootPos).requires(this);
-    public Command toSixthPos = new RunToPosition(controlSystem, sixPos).requires(this);
+    public Command toFirstPos = new RunToPosition(controlSystem, firstPos, 10).requires(this);
+    public Command toSecondPOS = new RunToPosition(controlSystem, secondPos, 10).requires(this);
+    public Command toThirdPos = new RunToPosition(controlSystem, thirdPos, 10).requires(this);
+    public Command toFourthPos = new RunToPosition(controlSystem, fourthPos, 10).requires(this);
+    public Command toFifthPos = new RunToPosition(controlSystem, fifthPos, 10).requires(this);
+    public Command toShootPos = new RunToPosition(controlSystem, ShootPos, 10).requires(this);
+    public Command toSixthPos = new RunToPosition(controlSystem, sixPos, 10).requires(this);
 
     @Override
     public void initialize() {
