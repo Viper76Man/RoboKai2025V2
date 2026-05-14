@@ -7,7 +7,7 @@ public class Adjustablehoodtestsub implements Subsystem {
     public static final Adjustablehoodtestsub INSTANCE = new Adjustablehoodtestsub();
     private Adjustablehoodtestsub(){}
 
-    private final ServoEx Hood = new ServoEx("AdjustableHood");
+    private final ServoEx Hood = new ServoEx("hood");
     private double currentposition = 0.5;
 
     public void adjustmentup(){

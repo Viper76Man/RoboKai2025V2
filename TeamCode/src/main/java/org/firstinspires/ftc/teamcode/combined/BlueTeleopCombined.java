@@ -58,11 +58,11 @@ public class BlueTeleopCombined extends NextFTCOpMode {
     public void onStartButtonPressed(){
         telemetry.addLine("Running");
 
-        startIntake().schedule();
-        ShooterSub.INSTANCE.Frontzone.schedule();
+//        startIntake().schedule();
+//        ShooterSub.INSTANCE.Frontzone.schedule();
 
         loadingSequence().schedule();
-        FlywheelSub.INSTANCE.flywheelNear.schedule();
+
 
         Gamepads.gamepad1().cross()
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
