@@ -11,10 +11,10 @@ public class Adjustablehoodtestsub implements Subsystem {
     private double currentposition = 0.5;
 
     public void adjustmentup(){
-        currentposition = Math.min(1.0,currentposition+0.01);
+        currentposition = Math.min(1.0,currentposition+0.1);
     }
     public void adjustmentdown(){
-        currentposition = Math.max(0.0,currentposition-0.01);
+        currentposition = Math.max(0.0,currentposition-0.1);
     }
     public double getHoodposition(){
         return Hood.getPosition();

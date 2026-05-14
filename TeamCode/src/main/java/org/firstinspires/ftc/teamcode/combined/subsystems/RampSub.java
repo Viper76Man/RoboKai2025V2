@@ -11,7 +11,7 @@ public class RampSub implements Subsystem {
 
     private ServoEx servo = new ServoEx("flicker");
 
-    public Command rampUp = new SetPosition(servo, .78).requires(this);
-    public Command rampDown = new SetPosition(servo, .5).requires(this);
+    public Command rampUp = new SetPosition(servo, .80).requires(this);
+    public Command rampDown = new SetPosition(servo, .75).requires(this);
 
 }

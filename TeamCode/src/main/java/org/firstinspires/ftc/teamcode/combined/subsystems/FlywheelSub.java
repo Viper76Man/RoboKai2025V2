@@ -11,8 +11,8 @@ public class FlywheelSub implements Subsystem {
     public static final FlywheelSub INSTANCE = new FlywheelSub();
     private FlywheelSub(){}
 
-    private final MotorEx motorl = new MotorEx("leftArc");
-    private final MotorEx motorr = new MotorEx("arcMotor").reversed();
+    private final MotorEx motorl = new MotorEx("leftArc").reversed();
+    private final MotorEx motorr = new MotorEx("arcMotor");
     private final MotorGroup motorGroup = new MotorGroup(motorl, motorr);
 
     private final ControlSystem controller = ControlSystem.builder()
@@ -22,8 +22,9 @@ public class FlywheelSub implements Subsystem {
             .build();
 
     public final Command flywheelOff = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
-    public final Command flywheelNear = new RunToVelocity(controller, 2333.34).requires(this).named("FlywheelNear");
-    public final Command flywheelFar = new RunToVelocity(controller,2893.34).requires(this).named("FlywheelFar");
+    public final Command flywheelNear = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelNear");
+    public final Command flywheelMiddle = new RunToVelocity(controller, 583.35).requires(this).named("FlywheelMiddle");
+    public final Command flywheelFar = new RunToVelocity(controller,2000.0).requires(this).named("FlywheelFar");
     @Override
     public void periodic() {
         motorGroup.setPower(controller.calculate(motorGroup.getState()));

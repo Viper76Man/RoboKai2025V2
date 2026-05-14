@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.IntakeMotorSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.Servosub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub2;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
@@ -26,7 +26,7 @@ import dev.nextftc.hardware.driving.MecanumDriverControlled;
 public class BlueTeleop extends NextFTCOpMode {
     public BlueTeleop() {
         addComponents(
-                new SubsystemComponent(Servosub.INSTANCE),
+                new SubsystemComponent(ServoSub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeMotorSub.INSTANCE),
                 new SubsystemComponent(ShooterSub.INSTANCE),
@@ -75,7 +75,7 @@ public class BlueTeleop extends NextFTCOpMode {
     ).schedule();
 
         Gamepads.gamepad1().square()
-                .whenBecomesTrue(Servosub.INSTANCE.upramp);
+                .whenBecomesTrue(ServoSub.INSTANCE.upramp);
 // This I looked up and it said that :: tells the thing what to do rather than .isBallin which would just say the answer at one time.
 
 //        Gamepads.gamepad1().triangle()
