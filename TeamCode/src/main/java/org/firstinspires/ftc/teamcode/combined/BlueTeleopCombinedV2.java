@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Servo123456Sub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
@@ -36,7 +36,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
-                new SubsystemComponent(ServoSub.INSTANCE),
+                new SubsystemComponent(Servo123456Sub.INSTANCE),
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
@@ -57,7 +57,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addLine("Running");
 
         //Possible fix for first servo delay
-        ServoSub.INSTANCE.downramp.schedule();
+        Servo123456Sub.INSTANCE.downramp.schedule();
 
         //Start intake without group
         IntakeSub.INSTANCE.inIntake.schedule();
@@ -186,10 +186,10 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
     private Command shotSequence(){
         return  new SequentialGroup(
-                ServoSub.INSTANCE.upramp,
+                Servo123456Sub.INSTANCE.upramp,
                 new Delay(0.4),
                 SpindexerSub.INSTANCE.toShootPos,
-                ServoSub.INSTANCE.downramp,
+                Servo123456Sub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off
         );
     }
