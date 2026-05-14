@@ -65,7 +65,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         loadingSequence().schedule();
 
         //Start flywheel without group
-        FlywheelSub.INSTANCE.flywheelNear.schedule();
+//        FlywheelSub.INSTANCE.flywheelNear.schedule();
 
         Gamepads.gamepad1().cross()
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
@@ -139,7 +139,17 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         );
         driveControlled.schedule();
 
-
+        if(VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
+            FlywheelSub.INSTANCE.flywheelNear.schedule();
+        }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1)
+        {
+            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+        }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
+        {
+            FlywheelSub.INSTANCE.flywheelFar.schedule();
+        }
 
     }
 
