@@ -139,17 +139,6 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         );
         driveControlled.schedule();
 
-        if(VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
-            FlywheelSub.INSTANCE.flywheelNear.schedule();
-        }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1)
-        {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
-        }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
-        {
-            FlywheelSub.INSTANCE.flywheelFar.schedule();
-        }
 
     }
 
@@ -163,7 +152,21 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         //telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
+        telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
         telemetry.update();
+
+        if(VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
+            FlywheelSub.INSTANCE.flywheelNear.schedule();
+        }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1)
+        {
+            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+        }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
+        {
+            FlywheelSub.INSTANCE.flywheelFar.schedule();
+        }
+
     }
 
     public void onStop(){
@@ -193,6 +196,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 RGBSub.INSTANCE.off
         );
     }
+
 
 
 //    private Command raise () {
