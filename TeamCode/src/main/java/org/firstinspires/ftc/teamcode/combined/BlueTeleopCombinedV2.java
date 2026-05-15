@@ -71,9 +71,14 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
         Gamepads.gamepad1().leftTrigger().atLeast(0.3)
-                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake );
-        Gamepads.gamepad1().leftBumper()
-                        .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
+                .whenBecomesTrue(new SequentialGroup (
+                        IntakeSub.INSTANCE.outIntake
+                ))
+                .whenBecomesFalse(new SequentialGroup(
+                        IntakeSub.INSTANCE.inIntake
+
+
+                ));
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(new SequentialGroup(
@@ -110,7 +115,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         Gamepads.gamepad1().dpadDown()
                         .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
 
-        Gamepads.gamepad1().rightTrigger().atLeast(0.3)
+        Gamepads.gamepad1().rightBumper()
                 .whenBecomesTrue(new SequentialGroup (
                             shotSequence()
                         ))
@@ -152,26 +157,28 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
     }
 
     @Override
-    public void onUpdate(){
+    public void onUpdate() {
         List<String> currentSnapshot = CommandManager.INSTANCE.snapshot();
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
-        telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         //telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
         telemetry.update();
 
-        if(VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
+        if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
             FlywheelSub.INSTANCE.flywheelNear.schedule();
-        }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1)
-        {
+            Hood1();
+        } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            Hood2();
+        } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
+            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            Hood3();
         }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
         {
             FlywheelSub.INSTANCE.flywheelOff.schedule();
         }
@@ -208,8 +215,15 @@ private void Intakeoff(){
                 RGBSub.INSTANCE.off
         );
     }
-
-
+    private Command Hood1(){
+        return HoodSub.INSTANCE.hoodZone1;
+    }
+    private Command Hood2(){
+        return HoodSub.INSTANCE.hoodZone2;
+    }
+    private Command Hood3(){
+        return HoodSub.INSTANCE.hoodZone3;
+    }
 //    private Command raise () {
 //        Adjustablehoodtestsub.INSTANCE.adjustmentup();
 //        return null;

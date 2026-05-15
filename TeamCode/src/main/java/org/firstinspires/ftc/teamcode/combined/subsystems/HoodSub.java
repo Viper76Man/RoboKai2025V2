@@ -23,3 +23,5 @@ public class   HoodSub implements Subsystem {
     public Command hoodZone4 = new SetPosition(servo, .35);
 
 }
+// For the shot on the corner that rpm and .175 in good
+// though when you get to the very end of the first zone the .28 is good. The rest of the zone does good with the .100
