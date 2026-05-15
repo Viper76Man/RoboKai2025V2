@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.Servo123456Sub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
@@ -36,7 +36,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
-                new SubsystemComponent(Servo123456Sub.INSTANCE),
+                new SubsystemComponent(ServoSub.INSTANCE),
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
@@ -57,7 +57,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addLine("Running");
 
         //Possible fix for first servo delay
-        Servo123456Sub.INSTANCE.downramp.schedule();
+        ServoSub.INSTANCE.downramp.schedule();
 
         //Start intake without group
         IntakeSub.INSTANCE.inIntake.schedule();
@@ -71,7 +71,9 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
         Gamepads.gamepad1().leftTrigger().atLeast(0.3)
-                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake);
+                .whenBecomesTrue(IntakeSub.INSTANCE.outIntake );
+        Gamepads.gamepad1().leftBumper()
+                        .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(new SequentialGroup(
@@ -105,13 +107,19 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         Gamepads.gamepad1().dpadRight()
                 .whenBecomesTrue(HoodSub.INSTANCE.hoodZone3);
+        Gamepads.gamepad1().dpadDown()
+                        .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
 
         Gamepads.gamepad1().rightTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup (
                             shotSequence()
                         ))
                         .whenBecomesFalse(new SequentialGroup(
+                                ServoSub.INSTANCE.downramp,
+                            new Delay(.3),
                             loadingSequence()
+
+
                         ));
 
 
@@ -121,10 +129,10 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
 //        Gamepads.gamepad1().triangle()
 //                        .whenBecomesTrue(LiftSub.INSTANCE.down);
-        Gamepads.gamepad1().rightBumper()
-                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelNear);
-        Gamepads.gamepad1().leftBumper()
-                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelFar);
+//        Gamepads.gamepad1().rightBumper()
+//                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelNear);
+//        Gamepads.gamepad1().leftBumper()
+//                .whenBecomesTrue(FlywheelSub.INSTANCE.flywheelFar);
 
 
 //                ));
@@ -138,6 +146,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 Gamepads.gamepad1().rightStickX()
         );
         driveControlled.schedule();
+
 
 
     }
@@ -164,9 +173,8 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         }
         else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2)
         {
-            FlywheelSub.INSTANCE.flywheelFar.schedule();
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
         }
-
     }
 
     public void onStop(){
@@ -186,17 +194,20 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 RGBSub.INSTANCE.green
         );
     }
-
+private void Intakeoff(){
+        IntakeSub.INSTANCE.inIntake.schedule();
+}
     private Command shotSequence(){
         return  new SequentialGroup(
-                Servo123456Sub.INSTANCE.upramp,
-                new Delay(0.4),
+                IntakeSub.INSTANCE.stopIntake,
+                ServoSub.INSTANCE.upramp,
+                new Delay(0.7),
                 SpindexerSub.INSTANCE.toShootPos,
-                Servo123456Sub.INSTANCE.downramp,
+               IntakeSub.INSTANCE.inIntake,
+                ServoSub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off
         );
     }
-
 
 
 //    private Command raise () {

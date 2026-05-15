@@ -11,8 +11,9 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.Servo123456Sub;
 
+
+import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.hunter.ColorSensor;
@@ -41,7 +42,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
-                new SubsystemComponent(Servo123456Sub.INSTANCE),
+                new SubsystemComponent(ServoSub.INSTANCE),
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
@@ -96,11 +97,11 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 .whenBecomesTrue(new SequentialGroup(
                         SpindexerSub.INSTANCE.toThirdPos,
                         new Delay(0.5),
-                        Servo123456Sub.INSTANCE.upramp,
+                        ServoSub.INSTANCE.upramp,
                         new Delay(1),
                             Shot(),
                         new Delay(0.5),
-                        Servo123456Sub.INSTANCE.downramp,
+                        ServoSub.INSTANCE.downramp,
                         new Delay(0.5),
                         RGBSub.INSTANCE.off,
                         loadingSequence()

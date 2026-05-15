@@ -22,8 +22,8 @@ public class FlywheelSub implements Subsystem {
             .build();
 
     public final Command flywheelOff = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelOff");
-    public final Command flywheelNear = new RunToVelocity(controller, 0.0).requires(this).named("FlywheelNear");
-    public final Command flywheelMiddle = new RunToVelocity(controller, 583.35).requires(this).named("FlywheelMiddle");
+    public final Command flywheelNear = new RunToVelocity(controller, 380).requires(this).named("FlywheelNear");
+    public final Command flywheelMiddle = new RunToVelocity(controller, 430).requires(this).named("FlywheelMiddle");
     public final Command flywheelFar = new RunToVelocity(controller,2000.0).requires(this).named("FlywheelFar");
     @Override
     public void periodic() {
@@ -31,3 +31,4 @@ public class FlywheelSub implements Subsystem {
     }
 
 }
+// For the middle shot I used that rpm and then 2 on the hood
