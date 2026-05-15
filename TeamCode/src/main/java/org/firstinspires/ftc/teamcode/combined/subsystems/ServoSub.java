@@ -10,5 +10,5 @@ public class ServoSub implements Subsystem {
     private ServoSub() {}
     public final ServoEx myServo = new ServoEx("Shotservo");
     public final Command upramp = new SetPosition(myServo, .80).requires(this);
-    public final Command downramp = new SetPosition(myServo, .57).requires(this);
+    public final Command downramp = new SetPosition(myServo, .52).requires(this);
 }

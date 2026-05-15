@@ -30,5 +30,4 @@ public class LiftSub implements Subsystem {
             new SetPosition(rightA, extendDown),
             new SetPosition(rightB, extendDown)
     ).requires(this);
-
 }

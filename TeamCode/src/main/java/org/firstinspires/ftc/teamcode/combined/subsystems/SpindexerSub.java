@@ -20,7 +20,8 @@ public class SpindexerSub implements Subsystem {
     private final double fourthPos = 751.8;
     private final double fifthPos = 1002.4;
     private final double sixPos =1253;
-
+    private final Double sort1 = 250.6;
+    private final Double sort2 = 501.2;
     private final double ShootPos = 1503.6;  // 720 degrees
 
 
@@ -45,6 +46,8 @@ public class SpindexerSub implements Subsystem {
     public Command toFifthPos = new RunToPosition(controlSystem, fifthPos, 10).requires(this);
     public Command toShootPos = new RunToPosition(controlSystem, ShootPos, 10).requires(this);
     public Command toSixthPos = new RunToPosition(controlSystem, sixPos, 10).requires(this);
+    public Command toSortPos1 = new RunToPosition(controlSystem, sort1, 10).requires(this);
+    public Command toSortPos2 = new RunToPosition(controlSystem, sort2, 10).requires(this);
 
     @Override
     public void initialize() {

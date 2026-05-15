@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.IntakeMotorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.ShooterSub2;
 import org.firstinspires.ftc.teamcode.hunter.subsystem.SpindexerSub;
 
@@ -29,7 +28,6 @@ public class BlueTeleop extends NextFTCOpMode {
                 new SubsystemComponent(ServoSub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeMotorSub.INSTANCE),
-                new SubsystemComponent(ShooterSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE

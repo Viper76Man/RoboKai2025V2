@@ -20,6 +20,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -64,11 +65,8 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         loadingSequence().schedule();
 
-        //Start flywheel without group
-//        FlywheelSub.INSTANCE.flywheelNear.schedule();
-
-        Gamepads.gamepad1().cross()
-                .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
+//        Gamepads.gamepad1().cross()
+//                .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
         Gamepads.gamepad1().leftTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup (
@@ -76,8 +74,6 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 ))
                 .whenBecomesFalse(new SequentialGroup(
                         IntakeSub.INSTANCE.inIntake
-
-
                 ));
 
         Gamepads.gamepad1().square()
@@ -86,6 +82,11 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                         IntakeSub.INSTANCE.stopIntake
 
                 ));
+        Gamepads.gamepad1().circle()
+                        .whenBecomesTrue( LiftSub.INSTANCE.up);
+
+        Gamepads.gamepad1().touchpad()
+                        .whenBecomesTrue(LiftSub.INSTANCE.down);
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -115,18 +116,12 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         Gamepads.gamepad1().dpadDown()
                         .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
 
-        Gamepads.gamepad1().rightBumper()
+        Gamepads.gamepad1().rightTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup (
-                            shotSequence()
-                        ))
-                        .whenBecomesFalse(new SequentialGroup(
-                                ServoSub.INSTANCE.downramp,
-                            new Delay(.3),
+                            shotSequence(),
+                            new Delay(.2),
                             loadingSequence()
-
-
                         ));
-
 
 //        Gamepads.gamepad1().circle()
 //                        .whenBecomesTrue(LiftSub.INSTANCE.up);
@@ -164,7 +159,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
-        //telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
+        telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
         telemetry.update();
@@ -242,7 +237,8 @@ private void Intakeoff(){
 //    }
 }
 
-
-
-
+// Square Flywheel and Intake off
+// Circle liftup
+// Touchpad lift down
+// Left Trigger is the out intake and can help to turn the spindexer back on.
 

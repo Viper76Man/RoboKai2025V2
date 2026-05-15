@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.combined;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
-import org.firstinspires.ftc.robotcore.internal.network.SendOnceRunnable;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Adjustablehoodtestsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
@@ -14,18 +12,14 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 
 
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.ShooterSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
-import org.firstinspires.ftc.teamcode.hunter.ColorSensor;
 
 import java.util.List;
 
-import dev.nextftc.bindings.BindingManager;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
-import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
