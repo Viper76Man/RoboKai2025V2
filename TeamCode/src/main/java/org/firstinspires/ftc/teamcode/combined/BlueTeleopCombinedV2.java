@@ -171,17 +171,21 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
             FlywheelSub.INSTANCE.flywheelNear.schedule();
-            Hood1();
+            Hood2();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
-            Hood2();
+            Hood5();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
             Hood3();
         }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE3)
         {
-            FlywheelSub.INSTANCE.flywheelOff.schedule();
+           FlywheelSub.INSTANCE.flywheelFar.schedule();
+           // Add Angle
         }
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.UNKOWN)
+        FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
 
     public void onStop(){
@@ -223,6 +227,9 @@ private void Intakeoff(){
     }
     private Command Hood3(){
         return HoodSub.INSTANCE.hoodZone3;
+    }
+    private Command Hood5(){
+        return HoodSub.INSTANCE.hoodZone5;
     }
 //    private Command raise () {
 //        Adjustablehoodtestsub.INSTANCE.adjustmentup();
