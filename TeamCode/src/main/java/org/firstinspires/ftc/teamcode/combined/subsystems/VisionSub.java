@@ -17,6 +17,8 @@ public class VisionSub implements Subsystem {
     private double cameraAngle = 6.1;
     private double goalHeight = 74.95;
     private double distance = 0;
+    private double tx = 0;
+    private boolean hastarget = false;
     private static final double zone0MxCm = 80;
 //close
     private static final double zone1MaxCm = 100;
@@ -52,7 +54,12 @@ public DetectedZone getDectectedZone(){
     public void periodic(){
         LLResult llResult = limeLight.getLatestResult();
         if (llResult != null && llResult.isValid()) {
+            tx = llResult.getTx();
             distance = getDistanceGoal(llResult.getTy());
+            hastarget = true;
+        }
+        else {
+            hastarget = false;
         }
     }
 
@@ -65,5 +72,11 @@ public DetectedZone getDectectedZone(){
     public double totalDistanceGoal(){
         return distance;
     }
+    public double getTx(){
+        return tx;
+    }
 
+    public boolean hastarget() {
+        return hastarget;
+    }
 }

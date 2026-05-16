@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.TurretSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
 
@@ -40,6 +42,8 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
+                new SubsystemComponent(VisionSub.INSTANCE),
+                new SubsystemComponent(TurretSub.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
