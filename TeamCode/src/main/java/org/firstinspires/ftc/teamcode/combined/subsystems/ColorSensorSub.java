@@ -13,35 +13,40 @@ import dev.nextftc.ftc.ActiveOpMode;
 
 public class ColorSensorSub implements Subsystem {
     public static final ColorSensorSub INSTANCE = new ColorSensorSub();
-    private ColorSensorSub(){}
+
+    private ColorSensorSub() {
+    }
+
     private RevColorSensorV3 colorSensor;
     private RevColorSensorV3 distanceSensor;
 
-    private static final double distanceThreshold= 25.0;
+    private static final double distanceThreshold = 25.0;
 
     public enum DetectedColor {
         PURPLE,
         GREEN,
         UNKNOWN
     }
+private final DetectedColor [] slots = {DetectedColor.UNKNOWN,DetectedColor.UNKNOWN,DetectedColor.UNKNOWN};
 
     @Override
-    public void initialize(){
+    public void initialize() {
         colorSensor = ActiveOpMode.hardwareMap().get(RevColorSensorV3.class, "colorSensor");
         colorSensor.setGain(60);
         distanceSensor = ActiveOpMode.hardwareMap().get(RevColorSensorV3.class, "colorSensor");
     }
 
-    public double getDistance(){
+    public double getDistance() {
         //Less then 25mm means a ball is in
-        return  distanceSensor.getDistance(DistanceUnit.MM);
+        return distanceSensor.getDistance(DistanceUnit.MM);
     }
+
     public boolean isBallin() {
         return distanceSensor.getDistance(DistanceUnit.MM) < distanceThreshold;
         // This is getting the data from the distance censor to evaluate if it is
     }
 
-    public DetectedColor getDetectedColor(Telemetry telemetry){
+    public DetectedColor getDetectedColor(Telemetry telemetry) {
         NormalizedRGBA colors = colorSensor.getNormalizedColors();
 
         float normRed, normGreen, normBlue;
@@ -61,20 +66,17 @@ public class ColorSensorSub implements Subsystem {
         None = xxxxx (.9000)
         */
 
-        if (normRed > .8){
+        if (normRed > .8) {
             return DetectedColor.UNKNOWN;
-        }
-        else if (normGreen > .70){
+        } else if (normGreen > .70) {
             return DetectedColor.GREEN;
-        }
-        else if (normGreen < .75 && normBlue > .58){
+        } else if (normGreen < .75 && normBlue > .58) {
             return DetectedColor.PURPLE;
-        }
-        else {
+        } else {
             return DetectedColor.UNKNOWN;
         }
-//        boolean [] placements = new boolean[3]
-//                int count = 0;
+
+
 
 
         //True boolean is green

@@ -20,18 +20,17 @@ public class VisionSub implements Subsystem {
     private double tx = 0;
     private boolean hastarget = false;
     private static final double zone0MxCm = 80;
-//close
+
     private static final double zone1MaxCm = 100;
-    // Middle of middle
-    private static final double zone2MaxCm = 200;
     // Max shot that we can have 177.81
-    private static final double zone3MaxCm = 400;
+    private static final double zone2MaxCm = 200;
+    private static final double zone3MaxCm =400;
 
     public enum DetectedZone {
         ZONE0,
         ZONE1,
         ZONE2,
-        ZONE3,
+        Zone3,
         UNKOWN
     }
 public DetectedZone getDectectedZone(){
@@ -39,7 +38,7 @@ public DetectedZone getDectectedZone(){
         if (distance <= zone0MxCm) return DetectedZone.ZONE0;
         if (distance <= zone1MaxCm) return DetectedZone.ZONE1;
         if (distance <= zone2MaxCm) return DetectedZone.ZONE2;
-        if (distance <= zone3MaxCm) return DetectedZone.ZONE3;
+        if(distance <= zone3MaxCm) return DetectedZone.Zone3;
         return DetectedZone.UNKOWN;
 }
 
@@ -75,8 +74,7 @@ public DetectedZone getDectectedZone(){
     public double getTx(){
         return tx;
     }
-
-    public boolean hastarget() {
+    public boolean hastarget(){
         return hastarget;
     }
 }

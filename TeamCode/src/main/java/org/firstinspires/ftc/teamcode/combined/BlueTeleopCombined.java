@@ -13,7 +13,8 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.TurretSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(VisionSub.INSTANCE),
-                new SubsystemComponent(TurretSub.INSTANCE),
+                new SubsystemComponent(Turretsub.Instance),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -142,7 +143,9 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
         telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
-        telemetry.addData("Command",TurretSub.INSTANCE.turret.getPosition());
+        telemetry.addData("Command", Turretsub.Instance.turret.getPosition());
+        telemetry.addData("tx",VisionSub.INSTANCE.getTx());
+        telemetry.addData("commandPos", Turretsub.Instance.turret.getPosition());
         telemetry.update();
     }
 

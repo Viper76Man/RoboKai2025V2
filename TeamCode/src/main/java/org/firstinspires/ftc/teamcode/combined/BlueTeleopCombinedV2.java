@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(FlywheelSub.INSTANCE),
                 new SubsystemComponent(VisionSub.INSTANCE),
+                new SubsystemComponent(Turretsub.Instance),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -163,19 +165,21 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
         telemetry.addData("tx",VisionSub.INSTANCE.getTx());
+        telemetry.addData("Has Target",VisionSub.INSTANCE.hastarget());
+        telemetry.addData("Command Position", Turretsub.Instance.turret.getPosition());
         telemetry.update();
 
         if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
-            FlywheelSub.INSTANCE.flywheelNear.schedule();
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
             HoodSub.INSTANCE.hoodZone2.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1) {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
             HoodSub.INSTANCE.hoodZone5.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
             HoodSub.INSTANCE.hoodZone3.schedule();
         }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE3)
+        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.Zone3)
         {
            FlywheelSub.INSTANCE.flywheelOff.schedule();
            // Add Angle
