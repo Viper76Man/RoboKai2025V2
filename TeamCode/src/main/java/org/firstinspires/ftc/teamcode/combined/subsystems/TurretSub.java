@@ -9,13 +9,13 @@ public class TurretSub implements Subsystem {
     private TurretSub() {
     }
 
-    private static final double KP = 0.04;
-    private static final double Minpos = 0.0;
-    private static final double Maxpos = 1.0;
-    private static final double Centerpos = 0.5;
-    private static final double Deadbandangle = 0.05;
+    private static final double KP =0.05;
+    private static final double Minpos =-.8;
+    private static final double Maxpos =.8;
+    private static final double Centerpos = -.3;
+    private static final double Deadbandangle = 0.01;
     // This value I can tune to figure out how to make it not rotate to much
-    private static final double Tx_sign = 1.0;
+    private static final double Tx_sign =1.0;
     // Need to figure out what is the max and min values for the turret
 
     public final ServoEx turret = new ServoEx("turretaxon");

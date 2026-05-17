@@ -119,7 +119,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         Gamepads.gamepad1().rightTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup (
                             shotSequence(),
-                            new Delay(.2),
+                            new Delay(.4),
                             loadingSequence()
                         ));
 
@@ -162,21 +162,22 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
+        telemetry.addData("tx",VisionSub.INSTANCE.getTx());
         telemetry.update();
 
         if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
             FlywheelSub.INSTANCE.flywheelNear.schedule();
-            Hood2();
+            HoodSub.INSTANCE.hoodZone2.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
-            Hood5();
+            HoodSub.INSTANCE.hoodZone5.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
-            Hood3();
+            HoodSub.INSTANCE.hoodZone3.schedule();
         }
         else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE3)
         {
-           FlywheelSub.INSTANCE.flywheelFar.schedule();
+           FlywheelSub.INSTANCE.flywheelOff.schedule();
            // Add Angle
         }
         else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.UNKOWN)

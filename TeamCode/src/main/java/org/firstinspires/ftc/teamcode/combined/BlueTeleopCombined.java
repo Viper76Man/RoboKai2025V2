@@ -142,6 +142,7 @@ public class BlueTeleopCombined extends NextFTCOpMode {
         telemetry.addData("Spindexer Position",SpindexerSub.INSTANCE.getSpindexerPosition());
         telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
+        telemetry.addData("Command",TurretSub.INSTANCE.turret.getPosition());
         telemetry.update();
     }
 
