@@ -29,6 +29,7 @@ import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
+import dev.nextftc.hardware.positionable.SetPosition;
 
 @TeleOp(name = "Blue Teleop Combined V2", group = "Coach")
 public class BlueTeleopCombinedV2 extends NextFTCOpMode {
@@ -64,6 +65,8 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         //Start intake without group
         IntakeSub.INSTANCE.inIntake.schedule();
+        liftDown().schedule();
+        // This may draw to much power and I cant remember if there is a hard stop
 
         loadingSequence().schedule();
 
@@ -83,10 +86,11 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                         alloff()
                 ));
         Gamepads.gamepad1().circle()
-                        .whenBecomesTrue( LiftSub.INSTANCE.up);
+                        .whenBecomesTrue(liftUp());
 
         Gamepads.gamepad1().touchpad()
-                        .whenBecomesTrue(LiftSub.INSTANCE.down);
+                        .whenBecomesTrue(liftDown());
+        // I was looking and I wonder if we dont have enough holding torque for when we lift. We have 4 times 8.4 Maybe we can build a hard stop
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -158,7 +162,10 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
-        telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
+        telemetry.addData("RighA pos", LiftSub.INSTANCE.rightA.getPosition());
+        telemetry.addData("RighB pos", LiftSub.INSTANCE.rightB.getPosition());
+        telemetry.addData("LeftB pos", LiftSub.INSTANCE.leftB.getPosition());
+        telemetry.addData("LeftA pos", LiftSub.INSTANCE.leftA.getPosition());
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
@@ -187,7 +194,8 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
     }
 
     public void onStop(){
-
+        IntakeSub.INSTANCE.stopIntake.schedule();
+        FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
 
 
@@ -221,6 +229,20 @@ private void Intakeoff(){
         IntakeSub.INSTANCE.stopIntake.schedule();
         FlywheelSub.INSTANCE.flywheelOff.schedule();
         return null;
+    }
+    private Command liftUp(){return new ParallelGroup(
+            new SetPosition(LiftSub.INSTANCE.leftA,LiftSub.extendUp),
+            new SetPosition(LiftSub.INSTANCE.leftB,LiftSub.extendUp),
+            new SetPosition(LiftSub.INSTANCE.rightA,LiftSub.extendUp),
+            new SetPosition(LiftSub.INSTANCE.rightB,LiftSub.extendUp)
+    ).requires(LiftSub.INSTANCE);
+    }
+    private Command liftDown(){return new ParallelGroup(
+            new SetPosition(LiftSub.INSTANCE.leftA, LiftSub.extendDown),
+            new SetPosition(LiftSub.INSTANCE.leftB, LiftSub.extendDown),
+            new SetPosition(LiftSub.INSTANCE.rightA, LiftSub.extendDown),
+            new SetPosition(LiftSub.INSTANCE.rightB, LiftSub.extendDown)
+    ).requires(LiftSub.INSTANCE);
     }
 //    private Command Hood1(){
 //        return HoodSub.INSTANCE.hoodZone1;
