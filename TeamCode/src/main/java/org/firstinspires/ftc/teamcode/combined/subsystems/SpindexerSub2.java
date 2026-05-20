@@ -1,19 +1,14 @@
 package org.firstinspires.ftc.teamcode.combined.subsystems;
 
-
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import dev.nextftc.control.ControlSystem;
-import dev.nextftc.control.KineticState;
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.controllable.RunToPosition;
 import dev.nextftc.hardware.impl.MotorEx;
 
-public class SpindexerSub implements Subsystem {
-    public static final SpindexerSub INSTANCE = new SpindexerSub();
-    private SpindexerSub() {}
-
+public class SpindexerSub2 implements Subsystem {
+    public static final SpindexerSub2 Instance = new SpindexerSub2();
+    private SpindexerSub2(){}
     private final double firstPos = 0;  //0 degrees
     private final double secondPos = 250.6; //120 degrees
     private final double thirdPos = 501.2;  //240 degrees
@@ -36,31 +31,63 @@ public class SpindexerSub implements Subsystem {
     public Command toFourthPos = new RunToPosition(controlSystem, fourthPos, 10).requires(this);
     public Command toFifthPos = new RunToPosition(controlSystem, fifthPos, 10).requires(this);
     public Command toShootPos = new RunToPosition(controlSystem, ShootPos, 10).requires(this);
-    public Command toSixthPos = new RunToPosition(controlSystem, sixPos, 10).requires(this);
-//    public Command toSortPos1 = new RunToPosition(controlSystem, sort1, 10).requires(this);
-//    public Command toSortPos2 = new RunToPosition(controlSystem, sort2, 10).requires(this);
 
-    @Override
-    public void initialize() {
-        //reset encoder
-        motor.getMotor().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        controlSystem.setGoal(new KineticState(0));
-    }
 
-    @Override
-    public void periodic() {
-        motor.setPower(controlSystem.calculate(motor.getState()));
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
-
-// Purple Common 12 Green 24 Purple
-// Green Green Green
-// Purple Purple Purple
-// Green Green Purple
-// Green Purple Purple
-// Green Purple Green
-// Purple Green Purple
-// Purple Purple Green
-// Purple Green Green
-
