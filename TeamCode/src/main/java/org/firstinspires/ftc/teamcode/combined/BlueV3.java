@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub2;
+import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
@@ -35,7 +35,7 @@ public class BlueV3 extends NextFTCOpMode {
     public BlueV3(){
         addComponents(
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
-                new SubsystemComponent(SpindexerSub2.INSTANCE),
+                new SubsystemComponent(SpindexerSub.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
                 new SubsystemComponent(ServoSub.INSTANCE),
@@ -49,17 +49,10 @@ public class BlueV3 extends NextFTCOpMode {
                 BindingsComponent.INSTANCE
         );
     }
-private double firstPos;
-    private double secondPos;
-    private double thirdPos;
+
     @Override
     public void onInit(){
-        double startPos = SpindexerSub2.INSTANCE.getSpindexerPosition();
-
-        firstPos = startPos;
-        secondPos = startPos + 250.6;
-        thirdPos = startPos + 501.2;
-
+        //Init stuff here
     }
 
     @Override
@@ -166,7 +159,7 @@ private double firstPos;
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
-        telemetry.addData("Spindexer Position", SpindexerSub2.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
@@ -195,18 +188,21 @@ private double firstPos;
             FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
 
+    @Override
     public void onStop(){
-
+        VisionSub.INSTANCE.stopCamera();
+        stopIntake();
+        stopShooter();
     }
 
 
     private Command loadingSequence() {
         return new SequentialGroup(
-                SpindexerSub2.INSTANCE.toFirstPos,
+                SpindexerSub.INSTANCE.toFirstPos,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub2.INSTANCE.toSecondPOS,
+                SpindexerSub.INSTANCE.toSecondPOS,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub2.INSTANCE.toThirdPos,
+                SpindexerSub.INSTANCE.toThirdPos,
                 RGBSub.INSTANCE.orange,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
                 RGBSub.INSTANCE.green
@@ -220,10 +216,20 @@ private double firstPos;
                 IntakeSub.INSTANCE.stopIntake,
                 ServoSub.INSTANCE.upramp,
                 new Delay(0.7),
-                SpindexerSub2.INSTANCE.toShootPos,
+                SpindexerSub.INSTANCE.toShootPos,
                 IntakeSub.INSTANCE.inIntake,
                 ServoSub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off
+        );
+    }
+    private Command stopIntake(){
+        return new SequentialGroup(
+                IntakeSub.INSTANCE.stopIntake
+        );
+    }
+    private Command stopShooter(){
+        return new SequentialGroup(
+                FlywheelSub.INSTANCE.flywheelOff
         );
     }
     private Command Hood1(){
@@ -253,5 +259,6 @@ private double firstPos;
 // Circle liftup
 // Touchpad lift down
 // Left Trigger is the out intake and can help to turn the spindexer back on.
+
 
 

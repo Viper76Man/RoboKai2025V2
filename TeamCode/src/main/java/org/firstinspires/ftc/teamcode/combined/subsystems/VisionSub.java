@@ -77,4 +77,7 @@ public DetectedZone getDectectedZone(){
     public boolean hastarget(){
         return hastarget;
     }
+    public void stopCamera (){
+        limeLight.close();
+    }
 }

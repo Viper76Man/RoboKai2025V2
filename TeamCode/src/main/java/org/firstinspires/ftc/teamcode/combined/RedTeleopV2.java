@@ -12,7 +12,8 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.TurretRedsub;
+
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionRedSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
@@ -45,7 +46,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(FlywheelSub.INSTANCE),
                 new SubsystemComponent(VisionRedSub.INSTANCE),
-                new SubsystemComponent(Turretsub.Instance),
+                new SubsystemComponent(TurretRedsub.Instance),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -167,7 +168,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
         telemetry.addData("Zone", VisionRedSub.INSTANCE.getDectectedZone());
         telemetry.addData("tx",VisionSub.INSTANCE.getTx());
         telemetry.addData("Has Target",VisionRedSub.INSTANCE.hastarget());
-        telemetry.addData("Command Position", Turretsub.Instance.turret.getPosition());
+        telemetry.addData("Command Position", TurretRedsub.Instance.turret.getPosition());
         telemetry.update();
 
         if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE4) {
@@ -192,6 +193,8 @@ public class RedTeleopV2 extends NextFTCOpMode {
     @Override
     public void onStop(){
         VisionRedSub.INSTANCE.stopCamera();
+        stopShooter();
+        stopIntake();
     }
 
 
@@ -219,6 +222,16 @@ public class RedTeleopV2 extends NextFTCOpMode {
                 IntakeSub.INSTANCE.inIntake,
                 ServoSub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off
+        );
+    }
+    private Command stopShooter(){
+        return new SequentialGroup(
+                FlywheelSub.INSTANCE.flywheelOff
+        );
+    }
+    private Command stopIntake(){
+        return new SequentialGroup(
+                IntakeSub.INSTANCE.stopIntake
         );
     }
     private Command Hood1(){
