@@ -9,7 +9,7 @@ public class RampSub implements Subsystem {
     public static final RampSub INSTANCE = new RampSub();
     private RampSub() {}
 
-    private ServoEx servo = new ServoEx("flicker");
+    private ServoEx servo = new ServoEx("turretaxon");
 
     public Command rampUp = new SetPosition(servo, .80).requires(this);
     public Command rampDown = new SetPosition(servo, .75).requires(this);
