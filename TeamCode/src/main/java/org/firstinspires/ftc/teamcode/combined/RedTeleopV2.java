@@ -189,8 +189,9 @@ public class RedTeleopV2 extends NextFTCOpMode {
             FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
 
+    @Override
     public void onStop(){
-
+        VisionRedSub.INSTANCE.stopCamera();
     }
 
 

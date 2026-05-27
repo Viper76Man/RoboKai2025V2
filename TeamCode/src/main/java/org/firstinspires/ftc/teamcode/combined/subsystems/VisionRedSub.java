@@ -77,4 +77,8 @@ public class VisionRedSub implements Subsystem {
     public boolean hastarget(){
         return hastarget;
     }
+
+    public void stopCamera (){
+        limeLight.close();
+    }
 }
