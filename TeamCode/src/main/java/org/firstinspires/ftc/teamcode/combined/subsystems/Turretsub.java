@@ -6,30 +6,30 @@ import dev.nextftc.hardware.impl.ServoEx;
 public class Turretsub implements Subsystem {
     public static final Turretsub Instance= new Turretsub();
     private Turretsub(){}
-    private static final double KP = 0.005;
-    private static final double MinPos = 0.1;
-    private static final double Maxpos = 0.9;
-    private static final double Centerpos = 0.5;
-    private static final double Deadbandangle = 0.5;
-    private static final double Tx_sign = -1.0;
+    private static final double ServoRange = 355;
+    private static final double kP = 0.6;
+    private static final double MinPos = -90;
+    private static final double MaxPos = 90;
+    private static final double Centerpos = 0.50;
+    private static final double Deadbandangle = 0.05;
+    // 7.75
+    private static final double Tx_sign = 1.0;
     public final ServoEx turret = new ServoEx("turretaxon");
-    private double Commandposition = Centerpos;
+    private double Commandposition = 0.0;
     @Override
-    public void initialize(){turret.setPosition(Commandposition);}
-    @Override
-    public void periodic(){
-        if(VisionSub.INSTANCE.hastarget() && Math.abs(VisionSub.INSTANCE.getTx()) > Deadbandangle) {
-            double tx = VisionSub.INSTANCE.getTx();
-            Commandposition += Tx_sign * KP * tx;
-        }
-        Commandposition = Math.max(MinPos,Math.min(Maxpos, Commandposition));
-        turret.setPosition(Commandposition);
+    public void initialize(){
+        turret.setPosition(angleToPosition(Commandposition));
     }
-
-
-
-
-
-
-
+    @Override
+    public void periodic() {
+        if (VisionSub.INSTANCE.hastarget() && Math.abs(VisionSub.INSTANCE.getTx()) > Deadbandangle) {
+            double tx = VisionSub.INSTANCE.getTx();
+            Commandposition += Tx_sign * kP * tx;
+            Commandposition = Math.max(MinPos, Math.min(MaxPos, Commandposition));
+            turret.setPosition(angleToPosition(Commandposition));
+        }
+    }
+    private double angleToPosition(double angleDegrees){
+        return Centerpos + (angleDegrees/ServoRange);
+    }
 }

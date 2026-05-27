@@ -7,15 +7,16 @@ import dev.nextftc.hardware.controllable.RunToPosition;
 import dev.nextftc.hardware.impl.MotorEx;
 
 public class SpindexerSub2 implements Subsystem {
-    public static final SpindexerSub2 Instance = new SpindexerSub2();
+    public static final SpindexerSub2 INSTANCE = new SpindexerSub2();
     private SpindexerSub2(){}
-    private final double firstPos = 0;  //0 degrees
-    private final double secondPos = 250.6; //120 degrees
-    private final double thirdPos = 501.2;  //240 degrees
-    private final double fourthPos = 751.8;
+
+    private final double firstPos = (getSpindexerPosition()+0);  //0 degrees
+    private final double secondPos = (getSpindexerPosition()+250.6); //120 degrees
+    private final double thirdPos = (getSpindexerPosition()+501.2);  //240 degrees
+    private final double fourthPos = (getSpindexerPosition()+751.8); //360
     private final double fifthPos = 1002.4;
-    private final double sixPos =1253;
-    private final double ShootPos = 1503.6;  // 720 degrees
+
+    private final double ShootPos = getSpindexerPosition()+1503.6;  // 720 degrees
     private final MotorEx motor = new MotorEx("spindexer").reversed();
     private final ControlSystem controlSystem = ControlSystem.builder()
             .posPid(0.005, 0, 0)

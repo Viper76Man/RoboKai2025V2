@@ -29,7 +29,6 @@ import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
-import dev.nextftc.hardware.positionable.SetPosition;
 
 @TeleOp(name = "Blue Teleop Combined V2", group = "Coach")
 public class BlueTeleopCombinedV2 extends NextFTCOpMode {
@@ -65,8 +64,6 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         //Start intake without group
         IntakeSub.INSTANCE.inIntake.schedule();
-        liftDown().schedule();
-        // This may draw to much power and I cant remember if there is a hard stop
 
         loadingSequence().schedule();
 
@@ -83,14 +80,15 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(new SequentialGroup(
-                        alloff()
+                        FlywheelSub.INSTANCE.flywheelOff,
+                        IntakeSub.INSTANCE.stopIntake
+
                 ));
         Gamepads.gamepad1().circle()
-                        .whenBecomesTrue(liftUp());
+                        .whenBecomesTrue( LiftSub.INSTANCE.up);
 
         Gamepads.gamepad1().touchpad()
-                        .whenBecomesTrue(liftDown());
-        // I was looking and I wonder if we dont have enough holding torque for when we lift. We have 4 times 8.4 Maybe we can build a hard stop
+                        .whenBecomesTrue(LiftSub.INSTANCE.down);
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -162,10 +160,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
-        telemetry.addData("RighA pos", LiftSub.INSTANCE.rightA.getPosition());
-        telemetry.addData("RighB pos", LiftSub.INSTANCE.rightB.getPosition());
-        telemetry.addData("LeftB pos", LiftSub.INSTANCE.leftB.getPosition());
-        telemetry.addData("LeftA pos", LiftSub.INSTANCE.leftA.getPosition());
+        //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
@@ -178,7 +173,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
             FlywheelSub.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone2.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE1) {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            FlywheelSub.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone5.schedule();
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
@@ -186,7 +181,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         }
         else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.Zone3)
         {
-           FlywheelSub.INSTANCE.flywheelFar.schedule();
+           FlywheelSub.INSTANCE.flywheelOff.schedule();
            // Add Angle
         }
         else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.UNKOWN)
@@ -194,8 +189,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
     }
 
     public void onStop(){
-        IntakeSub.INSTANCE.stopIntake.schedule();
-        FlywheelSub.INSTANCE.flywheelOff.schedule();
+
     }
 
 
@@ -225,37 +219,18 @@ private void Intakeoff(){
                 RGBSub.INSTANCE.off
         );
     }
-    private Command alloff (){
-        IntakeSub.INSTANCE.stopIntake.schedule();
-        FlywheelSub.INSTANCE.flywheelOff.schedule();
-        return null;
+    private Command Hood1(){
+        return HoodSub.INSTANCE.hoodZone1;
     }
-    private Command liftUp(){return new ParallelGroup(
-            new SetPosition(LiftSub.INSTANCE.leftA,LiftSub.extendUp),
-            new SetPosition(LiftSub.INSTANCE.leftB,LiftSub.extendUp),
-            new SetPosition(LiftSub.INSTANCE.rightA,LiftSub.extendUp),
-            new SetPosition(LiftSub.INSTANCE.rightB,LiftSub.extendUp)
-    ).requires(LiftSub.INSTANCE);
+    private Command Hood2(){
+        return HoodSub.INSTANCE.hoodZone2;
     }
-    private Command liftDown(){return new ParallelGroup(
-            new SetPosition(LiftSub.INSTANCE.leftA, LiftSub.extendDown),
-            new SetPosition(LiftSub.INSTANCE.leftB, LiftSub.extendDown),
-            new SetPosition(LiftSub.INSTANCE.rightA, LiftSub.extendDown),
-            new SetPosition(LiftSub.INSTANCE.rightB, LiftSub.extendDown)
-    ).requires(LiftSub.INSTANCE);
+    private Command Hood3(){
+        return HoodSub.INSTANCE.hoodZone3;
     }
-//    private Command Hood1(){
-//        return HoodSub.INSTANCE.hoodZone1;
-//    }
-//    private Command Hood2(){
-//        return HoodSub.INSTANCE.hoodZone2;
-//    }
-//    private Command Hood3(){
-//        return HoodSub.INSTANCE.hoodZone3;
-//    }
-//    private Command Hood5(){
-//        return HoodSub.INSTANCE.hoodZone5;
-//    }
+    private Command Hood5(){
+        return HoodSub.INSTANCE.hoodZone5;
+    }
 //    private Command raise () {
 //        Adjustablehoodtestsub.INSTANCE.adjustmentup();
 //        return null;

@@ -22,7 +22,7 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
-
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -31,8 +31,8 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 
-@TeleOp(name = "Red Teleop V2", group = "Coach")
-public class RedTeleopV2  extends NextFTCOpMode {
+@TeleOp(name = "Red Teleop Combined V2", group = "Coach")
+public class RedTeleopV2 extends NextFTCOpMode {
     public RedTeleopV2(){
         addComponents(
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
@@ -68,6 +68,9 @@ public class RedTeleopV2  extends NextFTCOpMode {
 
         loadingSequence().schedule();
 
+//        Gamepads.gamepad1().cross()
+//                .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
+
         Gamepads.gamepad1().leftTrigger().atLeast(0.3)
                 .whenBecomesTrue(new SequentialGroup (
                         IntakeSub.INSTANCE.outIntake
@@ -78,30 +81,15 @@ public class RedTeleopV2  extends NextFTCOpMode {
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(new SequentialGroup(
-                     alloff()
+                        FlywheelSub.INSTANCE.flywheelOff,
+                        IntakeSub.INSTANCE.stopIntake
+
                 ));
-        // I want to try this and see if it can help it to hold the position
         Gamepads.gamepad1().circle()
                 .whenBecomesTrue( LiftSub.INSTANCE.up);
 
         Gamepads.gamepad1().touchpad()
                 .whenBecomesTrue(LiftSub.INSTANCE.down);
-        Gamepads.gamepad1().rightTrigger().atLeast(0.3)
-                .whenBecomesTrue(new SequentialGroup (
-                        shotSequence(),
-                        new Delay(.4),
-                        loadingSequence()
-                ));
-        Command driveControlled = new MecanumDriverControlled(
-                MecanumDriveSub.INSTANCE.frontLeft,
-                MecanumDriveSub.INSTANCE.frontRight,
-                MecanumDriveSub.INSTANCE.backLeft,
-                MecanumDriveSub.INSTANCE.backRight,
-                Gamepads.gamepad1().leftStickY().negate(),
-                Gamepads.gamepad1().leftStickX(),
-                Gamepads.gamepad1().rightStickX()
-        );
-        driveControlled.schedule();
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -120,16 +108,24 @@ public class RedTeleopV2  extends NextFTCOpMode {
         Gamepads.gamepad1().dpadRight()
                 .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
 */
-//        Gamepads.gamepad1().dpadLeft()
-//                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone1);
-//
-//        Gamepads.gamepad1().dpadUp()
-//                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone2);
-//
-//        Gamepads.gamepad1().dpadRight()
-//                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone3);
-//        Gamepads.gamepad1().dpadDown()
-//                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
+        Gamepads.gamepad1().dpadLeft()
+                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone1);
+
+        Gamepads.gamepad1().dpadUp()
+                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone2);
+
+        Gamepads.gamepad1().dpadRight()
+                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone3);
+        Gamepads.gamepad1().dpadDown()
+                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
+
+        Gamepads.gamepad1().rightTrigger().atLeast(0.3)
+                .whenBecomesTrue(new SequentialGroup (
+                        shotSequence(),
+                        new Delay(.4),
+                        loadingSequence()
+                ));
+
 //        Gamepads.gamepad1().circle()
 //                        .whenBecomesTrue(LiftSub.INSTANCE.up);
         // I need to look at the axons and make sure that they are
@@ -143,9 +139,16 @@ public class RedTeleopV2  extends NextFTCOpMode {
 
 
 //                ));
-//        Gamepads.gamepad1().cross()
-//                .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
-
+        Command driveControlled = new MecanumDriverControlled(
+                MecanumDriveSub.INSTANCE.frontLeft,
+                MecanumDriveSub.INSTANCE.frontRight,
+                MecanumDriveSub.INSTANCE.backLeft,
+                MecanumDriveSub.INSTANCE.backRight,
+                Gamepads.gamepad1().leftStickY().negate(),
+                Gamepads.gamepad1().leftStickX(),
+                Gamepads.gamepad1().rightStickX()
+        );
+        driveControlled.schedule();
 
 
 
@@ -160,37 +163,32 @@ public class RedTeleopV2  extends NextFTCOpMode {
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
-        telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
-        telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
+        telemetry.addData("Distance to Goal", VisionRedSub.INSTANCE.totalDistanceGoal());
+        telemetry.addData("Zone", VisionRedSub.INSTANCE.getDectectedZone());
         telemetry.addData("tx",VisionSub.INSTANCE.getTx());
-        telemetry.addData("Has Target",VisionSub.INSTANCE.hastarget());
+        telemetry.addData("Has Target",VisionRedSub.INSTANCE.hastarget());
         telemetry.addData("Command Position", Turretsub.Instance.turret.getPosition());
         telemetry.update();
 
         if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE4) {
             FlywheelSub.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone2.schedule();
-            // This is anything that is less than 80 cm
         } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE5) {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+            FlywheelSub.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone5.schedule();
-            // This is anything less than 100 cm
         } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE6) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
             HoodSub.INSTANCE.hoodZone3.schedule();
-            // This is anything that is less than 200 cm which is equal to the end of the zone.
-            // This one I need to test and make sure it is flywheel middle rather than close
         }
         else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE7)
         {
-            FlywheelSub.INSTANCE.flywheelFar.schedule();
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
             // Add Angle
-            // This is the backzone (400 Cm)
         }
         else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.UNKOWN)
             FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
-// I made these numbers bigger becuase I wanted to make sure it would not be calling the same number more than once though this may be wrong or you dont have to do this
+
     public void onStop(){
 
     }
@@ -222,24 +220,18 @@ public class RedTeleopV2  extends NextFTCOpMode {
                 RGBSub.INSTANCE.off
         );
     }
-    private Command alloff (){
-        IntakeSub.INSTANCE.stopIntake.schedule();
-        FlywheelSub.INSTANCE.flywheelOff.schedule();
-        return null;
+    private Command Hood1(){
+        return HoodSub.INSTANCE.hoodZone1;
     }
-
-//    private Command Hood1(){
-//        return HoodSub.INSTANCE.hoodZone1;
-//    }
-//    private Command Hood2(){
-//        return HoodSub.INSTANCE.hoodZone2;
-//    }
-//    private Command Hood3(){
-//        return HoodSub.INSTANCE.hoodZone3;
-//    }
-//    private Command Hood5(){
-//        return HoodSub.INSTANCE.hoodZone5;
-//    }
+    private Command Hood2(){
+        return HoodSub.INSTANCE.hoodZone2;
+    }
+    private Command Hood3(){
+        return HoodSub.INSTANCE.hoodZone3;
+    }
+    private Command Hood5(){
+        return HoodSub.INSTANCE.hoodZone5;
+    }
 //    private Command raise () {
 //        Adjustablehoodtestsub.INSTANCE.adjustmentup();
 //        return null;
@@ -255,5 +247,4 @@ public class RedTeleopV2  extends NextFTCOpMode {
 // Circle liftup
 // Touchpad lift down
 // Left Trigger is the out intake and can help to turn the spindexer back on.
-
 

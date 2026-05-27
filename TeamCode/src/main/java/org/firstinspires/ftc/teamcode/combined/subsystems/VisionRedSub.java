@@ -48,7 +48,7 @@ public class VisionRedSub implements Subsystem {
         limeLight.pipelineSwitch(2);   //Obelisk 0, Blue 1, Red 2
         limeLight.start();
     }
-// Looked this up in Jacks Code it is 2
+
     @Override
     public void periodic(){
         LLResult llResult = limeLight.getLatestResult();
