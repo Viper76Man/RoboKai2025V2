@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.combined.subsystems;
 
 
+import dev.nextftc.control.feedback.PIDController;
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.utility.LambdaCommand;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.impl.FeedbackCRServoEx;
 
@@ -22,20 +24,26 @@ public class LiftSub2 implements Subsystem {
     }
 
 
-    /*public Command goToPosition() {
-        return new RunCommand(() -> {
-            Double posL = leftLift1.getCurrentPosition();
-            Double posR = leftLift2.getCurrentPosition();
+    public Command goToPosition() {
+        double target = 50.0;
+        double tolerance = 1.0;
 
-            // Calculate base power to reach target
-            double basePower = (500 - posL) * kP_pos;
+        return new LambdaCommand("GoToPosition")
+                .setUpdate(() -> {
+                    double posL = leftLift1.getCurrentPosition();
+                    double posR = leftLift2.getCurrentPosition();
 
-            // Calculate sync correction
-            double syncCorrection = (posL - posR) * kP_sync;
+                    // Calculate base power to reach target
+                    double basePower = (target - posL) * kP_pos;
 
-            leftLift1.setPower(basePower - syncCorrection);
-            leftLift2.setPower(basePower + syncCorrection);
-        }, this).setInterruptible(true);
-    }*/
+                    // Calculate sync correction
+                    double syncCorrection = (posL - posR) * kP_sync;
+
+                    leftLift1.setPower(basePower - syncCorrection);
+                    leftLift2.setPower(basePower + syncCorrection);
+                })
+                .setIsDone(() -> Math.abs(target - leftLift1.getCurrentPosition()) < tolerance)
+                .requires(this); // Assuming 'this' is your Lift Subsystem
+    }
 
 }
