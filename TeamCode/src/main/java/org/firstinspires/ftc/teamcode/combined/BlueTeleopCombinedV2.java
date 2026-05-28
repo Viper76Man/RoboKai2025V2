@@ -5,11 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Adjustablehoodtestsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub2;
 import org.firstinspires.ftc.teamcode.combined.subsystems.HoodSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.RampSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
@@ -32,7 +34,7 @@ import dev.nextftc.hardware.driving.MecanumDriverControlled;
 
 @TeleOp(name = "Blue Teleop Combined V2", group = "Coach")
 public class BlueTeleopCombinedV2 extends NextFTCOpMode {
-    public BlueTeleopCombinedV2(){
+    public BlueTeleopCombinedV2() {
         addComponents(
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
                 new SubsystemComponent(SpindexerSub.INSTANCE),
@@ -50,13 +52,9 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         );
     }
 
-    @Override
-    public void onInit(){
-        //Init stuff here
-    }
 
     @Override
-    public void onStartButtonPressed(){
+    public void onStartButtonPressed() {
         telemetry.addLine("Running");
 
         //Possible fix for first servo delay
@@ -71,7 +69,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 //                .whenBecomesTrue(IntakeSub.INSTANCE.inIntake);
 
         Gamepads.gamepad1().leftTrigger().atLeast(0.3)
-                .whenBecomesTrue(new SequentialGroup (
+                .whenBecomesTrue(new SequentialGroup(
                         IntakeSub.INSTANCE.outIntake
                 ))
                 .whenBecomesFalse(new SequentialGroup(
@@ -85,10 +83,10 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 
                 ));
         Gamepads.gamepad1().circle()
-                        .whenBecomesTrue( LiftSub.INSTANCE.up);
+                .whenBecomesTrue(LiftSub.INSTANCE.up);
 
         Gamepads.gamepad1().touchpad()
-                        .whenBecomesTrue(LiftSub.INSTANCE.down);
+                .whenBecomesTrue(LiftSub.INSTANCE.down);
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -98,15 +96,15 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
 //                                lower()
 //                        ));
 
-/*        Gamepads.gamepad1().dpadLeft()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toFirstPos);
-
-        Gamepads.gamepad1().dpadUp()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toSecondPOS);
-
+        Gamepads.gamepad1().dpadLeft()
+              .whenBecomesTrue(RampSub.INSTANCE.position3);
+//.5
+       Gamepads.gamepad1().dpadUp()
+               .whenBecomesTrue(RampSub.INSTANCE.position2);
+//.65
         Gamepads.gamepad1().dpadRight()
-                .whenBecomesTrue(SpindexerSub.INSTANCE.toThirdPos);
-*/
+                .whenBecomesTrue(RampSub.INSTANCE.position1);
+
         Gamepads.gamepad1().dpadLeft()
                 .whenBecomesTrue(HoodSub.INSTANCE.hoodZone1);
 
@@ -116,14 +114,14 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         Gamepads.gamepad1().dpadRight()
                 .whenBecomesTrue(HoodSub.INSTANCE.hoodZone3);
         Gamepads.gamepad1().dpadDown()
-                        .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
+                .whenBecomesTrue(HoodSub.INSTANCE.hoodZone5);
 
         Gamepads.gamepad1().rightTrigger().atLeast(0.3)
-                .whenBecomesTrue(new SequentialGroup (
-                            shotSequence(),
-                            new Delay(.4),
-                            loadingSequence()
-                        ));
+                .whenBecomesTrue(new SequentialGroup(
+                        shotSequence(),
+                        new Delay(.4),
+                        loadingSequence()
+                ));
 
 //        Gamepads.gamepad1().circle()
 //                        .whenBecomesTrue(LiftSub.INSTANCE.up);
@@ -150,7 +148,6 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         driveControlled.schedule();
 
 
-
     }
 
     @Override
@@ -161,11 +158,11 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
         telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
-        telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
+        telemetry.addData("Hood Position", Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
-        telemetry.addData("tx",VisionSub.INSTANCE.getTx());
-        telemetry.addData("Has Target",VisionSub.INSTANCE.hastarget());
+        telemetry.addData("tx", VisionSub.INSTANCE.getTx());
+        telemetry.addData("Has Target", VisionSub.INSTANCE.hastarget());
         telemetry.addData("Command Position", Turretsub.Instance.turret.getPosition());
         telemetry.update();
 
@@ -178,19 +175,19 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE2) {
             FlywheelSub.INSTANCE.flywheelMiddle.schedule();
             HoodSub.INSTANCE.hoodZone3.schedule();
-        }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.Zone3)
-        {
-           FlywheelSub.INSTANCE.flywheelOff.schedule();
-           // Add Angle
-        }
-        else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.UNKOWN)
-        FlywheelSub.INSTANCE.flywheelOff.schedule();
+        } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.Zone3) {
+            FlywheelSub.INSTANCE.flywheelFar.schedule();
+           HoodSub.INSTANCE.hoodZone4.schedule();
+        } else if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.UNKOWN)
+            FlywheelSub.INSTANCE.flywheelOff.schedule();
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         //StopOpModeCommand stopOpModeCommand = new StopOpModeCommand();
+        VisionSub.INSTANCE.stopCamera();
+        stopIntake();
+        stopShooter();
     }
 
 
@@ -206,32 +203,36 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 RGBSub.INSTANCE.green
         );
     }
-private void Intakeoff(){
+
+    private void Intakeoff() {
         IntakeSub.INSTANCE.inIntake.schedule();
-}
-    private Command shotSequence(){
-        return  new SequentialGroup(
+    }
+
+    private Command shotSequence() {
+        return new SequentialGroup(
                 IntakeSub.INSTANCE.stopIntake,
                 ServoSub.INSTANCE.upramp,
                 new Delay(0.7),
                 SpindexerSub.INSTANCE.toShootPos,
-               IntakeSub.INSTANCE.inIntake,
+                IntakeSub.INSTANCE.inIntake,
                 ServoSub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off
         );
     }
-    private Command Hood1(){
-        return HoodSub.INSTANCE.hoodZone1;
+
+    private Command stopIntake() {
+        return new SequentialGroup(
+                IntakeSub.INSTANCE.stopIntake
+        );
     }
-    private Command Hood2(){
-        return HoodSub.INSTANCE.hoodZone2;
+
+    private Command stopShooter() {
+        return new SequentialGroup(
+                FlywheelSub2.INSTANCE.flywheelOff
+        );
     }
-    private Command Hood3(){
-        return HoodSub.INSTANCE.hoodZone3;
-    }
-    private Command Hood5(){
-        return HoodSub.INSTANCE.hoodZone5;
-    }
+}
+
 //    private Command raise () {
 //        Adjustablehoodtestsub.INSTANCE.adjustmentup();
 //        return null;
@@ -241,7 +242,7 @@ private void Intakeoff(){
 //
 //        return null;
 //    }
-}
+
 
 // Square Flywheel and Intake off
 // Circle liftup

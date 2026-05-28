@@ -20,7 +20,7 @@ public class   HoodSub implements Subsystem {
     public Command hoodZone3 = new SetPosition(servo, .175);
     // half this should be a good combo for the mid-shot still in the short shot.
     // Max distance for this is 177.81
-    public Command hoodZone4 = new SetPosition(servo, .21);
+    public Command hoodZone4 = new SetPosition(servo,.178);
 
 }
 // For the shot on the corner that rpm and .175 in good

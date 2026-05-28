@@ -12,15 +12,18 @@ public class LiftSub2 implements Subsystem {
     private LiftSub2(){}
 
     // Pair each servo with its encoder
-    private final FeedbackCRServoEx leftLift1 = new FeedbackCRServoEx("leftenc1", "leftLift1");
-    private final FeedbackCRServoEx leftLift2 = new FeedbackCRServoEx("leftenc2", "leftLift2");
+//    private final FeedbackCRServoEx leftLift1 = new FeedbackCRServoEx("leftenc1", "leftLift1");
+//    private final FeedbackCRServoEx leftLift2 = new FeedbackCRServoEx("leftenc2", "leftLift2");
+    private final FeedbackCRServoEx leftLift1 = new FeedbackCRServoEx("rightenc1", "rightLift");
+    private final FeedbackCRServoEx leftLift2 = new FeedbackCRServoEx("rightenc2", "rightLift2");
 
     private final double kP_sync = 0.005;
     private final double kP_pos = 0.01; // Power per tick of distance
 
     @Override
     public void initialize() {
-        leftLift1.reversed();
+        //leftLift1.reversed();
+        leftLift2.reversed();
     }
 
 

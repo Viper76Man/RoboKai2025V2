@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.combined.subsystems.Adjustablehoodtestsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ColorSensorSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub2;
 import org.firstinspires.ftc.teamcode.combined.subsystems.HoodSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
@@ -23,7 +23,6 @@ import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.CommandManager;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.delays.WaitUntil;
-import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -44,7 +43,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
                 new SubsystemComponent(RGBSub.INSTANCE),
                 new SubsystemComponent(LiftSub.INSTANCE),
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
-                new SubsystemComponent(FlywheelSub.INSTANCE),
+                new SubsystemComponent(FlywheelSub2.INSTANCE),
                 new SubsystemComponent(VisionRedSub.INSTANCE),
                 new SubsystemComponent(TurretRedsub.Instance),
                 BulkReadComponent.INSTANCE,
@@ -82,7 +81,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
 
         Gamepads.gamepad1().square()
                 .whenBecomesTrue(new SequentialGroup(
-                        FlywheelSub.INSTANCE.flywheelOff,
+                        FlywheelSub2.INSTANCE.flywheelOff,
                         IntakeSub.INSTANCE.stopIntake
 
                 ));
@@ -171,23 +170,29 @@ public class RedTeleopV2 extends NextFTCOpMode {
         telemetry.addData("Command Position", TurretRedsub.Instance.turret.getPosition());
         telemetry.update();
 
-        if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE4) {
-            FlywheelSub.INSTANCE.flywheelNear.schedule();
+        if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE0) {
+            FlywheelSub2.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone2.schedule();
-        } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE5) {
-            FlywheelSub.INSTANCE.flywheelNear.schedule();
+        } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE1) {
+            FlywheelSub2.INSTANCE.flywheelNear.schedule();
             HoodSub.INSTANCE.hoodZone5.schedule();
-        } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE6) {
-            FlywheelSub.INSTANCE.flywheelMiddle.schedule();
+        } else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE2) {
+            FlywheelSub2.INSTANCE.flywheelMiddle.schedule();
             HoodSub.INSTANCE.hoodZone3.schedule();
         }
-        else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.ZONE7)
+        else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.Zone3)
         {
-            FlywheelSub.INSTANCE.flywheelOff.schedule();
-            // Add Angle
+            FlywheelSub2.INSTANCE.flywheelFar.schedule();
+            HoodSub.INSTANCE.hoodZone4.schedule();
+            //
         }
+        else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.Zone4){
+            FlywheelSub2.INSTANCE.flywheelNear2.schedule();
+            HoodSub.INSTANCE.hoodZone4.schedule();
+        }
+
         else if (VisionRedSub.INSTANCE.getDectectedZone() == VisionRedSub.DetectedZone.UNKOWN)
-            FlywheelSub.INSTANCE.flywheelOff.schedule();
+            FlywheelSub2.INSTANCE.flywheelOff.schedule();
     }
 
     @Override
@@ -226,7 +231,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
     }
     private Command stopShooter(){
         return new SequentialGroup(
-                FlywheelSub.INSTANCE.flywheelOff
+                FlywheelSub2.INSTANCE.flywheelOff
         );
     }
     private Command stopIntake(){

@@ -26,9 +26,9 @@ public class FlywheelSub2 implements Subsystem {
 
     // plus 10
     public final Command flywheelNear2 = new RunToVelocity(controller, 400).requires(this).named("FlywheelNear2");
-    public final Command flywheelMiddle = new RunToVelocity(controller, 435).requires(this).named("FlywheelMiddle");
+    public final Command flywheelMiddle = new RunToVelocity(controller, 420).requires(this).named("FlywheelMiddle");
     // plus 5
-    public final Command flywheelFar = new RunToVelocity(controller,600).requires(this).named("FlywheelFar");
+    public final Command flywheelFar = new RunToVelocity(controller,530).requires(this).named("FlywheelFar");
     @Override
     public void periodic() {
         motorGroup.setPower(controller.calculate(motorGroup.getState()));

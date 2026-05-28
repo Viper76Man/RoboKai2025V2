@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.combined.subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
@@ -19,28 +17,31 @@ public class VisionRedSub implements Subsystem {
     private double distance = 0;
     private double tx = 0;
     private boolean hastarget = false;
-    private static final double zone4MxCm = 80;
+    private static final double zone0MxCm = 80;
 
-    private static final double zone5MaxCm = 100;
+    private static final double zone1MaxCm = 90;
+    private static final double zone4MaxCm = 100;
     // Max shot that we can have 177.81
-    private static final double zone6MaxCm = 200;
-    private static final double zone7MaxCm =400;
+    private static final double zone2MaxCm = 160;
+    private static final double zone3MaxCm =400;
 
     public enum DetectedZone {
-        ZONE4,
-        ZONE5,
-        ZONE6,
-        ZONE7,
+        ZONE0,
+        ZONE1,
+        ZONE2,
+        Zone3,
+        Zone4,
         UNKOWN
     }
-    public DetectedZone getDectectedZone(){
+public DetectedZone getDectectedZone(){
         if (distance <= 0) return DetectedZone.UNKOWN;
-        if (distance <= zone4MxCm) return DetectedZone.ZONE4;
-        if (distance <= zone5MaxCm) return DetectedZone.ZONE5;
-        if (distance <= zone6MaxCm) return DetectedZone.ZONE6;
-        if(distance <= zone7MaxCm) return DetectedZone.ZONE7;
+        if (distance <= zone0MxCm) return DetectedZone.ZONE0;
+        if (distance <= zone1MaxCm) return DetectedZone.ZONE1;
+        if (distance <= zone4MaxCm) return DetectedZone.Zone4;
+        if (distance <= zone2MaxCm) return DetectedZone.ZONE2;
+        if(distance <= zone3MaxCm) return DetectedZone.Zone3;
         return DetectedZone.UNKOWN;
-    }
+}
 
     @Override
     public void initialize(){
@@ -77,7 +78,6 @@ public class VisionRedSub implements Subsystem {
     public boolean hastarget(){
         return hastarget;
     }
-
     public void stopCamera (){
         limeLight.close();
     }

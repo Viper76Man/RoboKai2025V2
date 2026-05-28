@@ -11,7 +11,9 @@ public class RampSub implements Subsystem {
 
     private ServoEx servo = new ServoEx("turretaxon");
 
-    public Command rampUp = new SetPosition(servo, .80).requires(this);
-    public Command rampDown = new SetPosition(servo, .75).requires(this);
+    public Command position1 = new SetPosition(servo, .35).requires(this);
+    public Command position2 = new SetPosition(servo, .65).requires(this);
+    public Command position3 = new SetPosition(servo, .5).requires(this);
+
 
 }

@@ -11,15 +11,15 @@ public class Turretsub implements Subsystem {
     private static final double MinPos = -100;
     private static final double MaxPos = 100;
     private static final double Centerpos = 0.50;
-    private static final double Deadbandangle = 0.05;
-    private static final double txOffset = 0.01;
+    private static final double Deadbandangle = 0.08;
+    private static final double txOffset = 8;
     // 7.75
     private static final double Tx_sign = 1.0;
     public final ServoEx turret = new ServoEx("turretaxon");
     private double Commandposition = 0.0;
     @Override
     public void initialize(){
-        turret.setPosition(angleToPosition(Commandposition));
+        turret.setPosition(Centerpos);
     }
     @Override
     public void periodic() {
