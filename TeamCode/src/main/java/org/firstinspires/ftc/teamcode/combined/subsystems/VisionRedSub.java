@@ -22,7 +22,7 @@ public class VisionRedSub implements Subsystem {
     private static final double zone1MaxCm = 90;
     private static final double zone4MaxCm = 100;
     // Max shot that we can have 177.81
-    private static final double zone2MaxCm = 160;
+    private static final double zone2MaxCm = 180;
     private static final double zone3MaxCm =400;
 
     public enum DetectedZone {
