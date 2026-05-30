@@ -30,6 +30,7 @@ public class LiftSub2 implements Subsystem {
     public Command goToPosition() {
         double tolerance = 1.5; // Slightly wider for 4 servos to avoid hunting
         double target = 50;
+        double powerVariance = .9;
         return new LambdaCommand("GoToPosition4Servo")
                 .setUpdate(() -> {
                     // 1. Read all current positions
@@ -42,8 +43,8 @@ public class LiftSub2 implements Subsystem {
                     double avgPos = (p1 + p2 + p3 + p4) / 4.0;
 
                     // 3. Calculate independent target-seeking powers
-                    double base1 = (target - p1) * kP_pos;
-                    double base2 = (target - p2) * kP_pos;
+                    double base1 = (target - p1) * kP_pos * powerVariance;
+                    double base2 = (target - p2) * kP_pos * powerVariance;
                     double base3 = (target - p3) * kP_pos;
                     double base4 = (target - p4) * kP_pos;
 
