@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.LiftSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.MecanumDriveSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub3;
 import org.firstinspires.ftc.teamcode.combined.subsystems.TurretRedBacksub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.TurretRedsub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionRedSub;
@@ -36,7 +36,7 @@ public class RedTeleopV3 extends NextFTCOpMode {
     public RedTeleopV3(){
         addComponents(
                 new SubsystemComponent(MecanumDriveSub.INSTANCE),
-                new SubsystemComponent(SpindexerSub.INSTANCE),
+                new SubsystemComponent(SpindexerSub3.INSTANCE),
                 new SubsystemComponent(IntakeSub.INSTANCE),
                 new SubsystemComponent(ColorSensorSub.INSTANCE),
                 new SubsystemComponent(ServoSub.INSTANCE),
@@ -80,11 +80,7 @@ public class RedTeleopV3 extends NextFTCOpMode {
                 ));
 
         Gamepads.gamepad1().square()
-                .whenBecomesTrue(new SequentialGroup(
-                        FlywheelSub2.INSTANCE.flywheelOff,
-                        IntakeSub.INSTANCE.stopIntake
-
-                ));
+                .whenBecomesTrue(SpindexerSub3.INSTANCE.toangleAdjust);
         Gamepads.gamepad1().circle()
                 .whenBecomesTrue( LiftSub.INSTANCE.up);
 
@@ -162,7 +158,7 @@ public class RedTeleopV3 extends NextFTCOpMode {
         telemetry.addData("Running Commands", currentSnapshot);
         telemetry.addData("Detected Color", ColorSensorSub.INSTANCE.getDetectedColor(telemetry));
         telemetry.addData("Distance", ColorSensorSub.INSTANCE.getDistance());
-        telemetry.addData("Spindexer Position", SpindexerSub.INSTANCE.getSpindexerPosition());
+        telemetry.addData("Spindexer Position", SpindexerSub3.INSTANCE.getSpindexerPosition());
         //telemetry.addData("Lift Distance",LiftSub.INSTANCE.rightA);
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionRedSub.INSTANCE.totalDistanceGoal());
@@ -207,11 +203,11 @@ public class RedTeleopV3 extends NextFTCOpMode {
 
     private Command loadingSequence() {
         return new SequentialGroup(
-                SpindexerSub.INSTANCE.toFirstPos,
+                SpindexerSub3.INSTANCE.toFirstPos,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toSecondPOS,
+                SpindexerSub3.INSTANCE.toSecondPOS,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
-                SpindexerSub.INSTANCE.toThirdPos,
+                SpindexerSub3.INSTANCE.toThirdPos,
                 RGBSub.INSTANCE.orange,
                 new WaitUntil(ColorSensorSub.INSTANCE::isBallin),
                 RGBSub.INSTANCE.green
@@ -225,7 +221,7 @@ public class RedTeleopV3 extends NextFTCOpMode {
                 IntakeSub.INSTANCE.stopIntake,
                 ServoSub.INSTANCE.upramp,
                 new Delay(0.7),
-                SpindexerSub.INSTANCE.toShootPos,
+                SpindexerSub3.INSTANCE.toShootPos,
                 IntakeSub.INSTANCE.inIntake,
                 ServoSub.INSTANCE.downramp,
                 RGBSub.INSTANCE.off

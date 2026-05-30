@@ -6,7 +6,10 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.combined.subsystems.FlywheelSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.IntakeSub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.TurretBlueBacksub;
+import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -20,6 +23,9 @@ public class AutoRedBack extends NextFTCOpMode {
     public AutoRedBack(){
         addComponents(
         new SubsystemComponent(IntakeSub.INSTANCE),
+        new SubsystemComponent(TurretBlueBacksub.Instance),
+        new SubsystemComponent(VisionSub.INSTANCE),
+        new SubsystemComponent(FlywheelSub.INSTANCE),
         new PedroComponent(Constants::createFollower),
         BulkReadComponent.INSTANCE,
         BindingsComponent.INSTANCE
@@ -32,7 +38,7 @@ public class AutoRedBack extends NextFTCOpMode {
     @Override
     public void onInit() {
         paths = new Paths(PedroComponent.follower());
-        PedroComponent.follower().setStartingPose(new Pose(87, 9, Math.toRadians(90)));
+        PedroComponent.follower().setStartingPose(new Pose(0, 0, Math.toRadians(0)));
         Globals.alliance = Globals.Alliance.RED;
     }
 
@@ -55,9 +61,9 @@ public class AutoRedBack extends NextFTCOpMode {
             leave = follower
                     .pathBuilder()
                     .addPath(
-                            new BezierLine(new Pose(87.000, 9.000), new Pose(87.000, 33.000))
+                            new BezierLine(new Pose(0.000, 0.000), new Pose(12.000, 0.0))
                     )
-                    .setConstantHeadingInterpolation(Math.toRadians(90))
+                    .setConstantHeadingInterpolation(Math.toRadians(0))
                     .build();
         }
     }

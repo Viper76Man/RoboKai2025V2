@@ -13,199 +13,63 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import com.bylazar.configurables.annotations.Configurable;
-import com.bylazar.field.CanvasRotation;
-import com.pedropathing.control.FilteredPIDFCoefficients;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
-
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-
-
-@Configurable
 public class Constants {
-    //Drive motors
-    public static String frontLeft = "fl"; //Control Hub Port 0
-    public static String frontRight = "fr"; //Control Hub Port 1
-    public static String backLeft = "bl"; //Control Hub Port 2
-    public static String backRight = "br"; //Control Hub Port 3
+    public static FollowerConstants followerConstants;
+    public static String frontLeft = "fl";
+    public static String frontRight = "fr";
+    public static String backLeft = "bl";
+    public static String backRight = "br";
     public static DcMotorSimple.Direction frontLeftDirection = DcMotorSimple.Direction.FORWARD;
     public static DcMotorSimple.Direction backLeftDirection = DcMotorSimple.Direction.FORWARD;
     public static DcMotorSimple.Direction frontRightDirection = DcMotorSimple.Direction.FORWARD;
     public static DcMotorSimple.Direction backRightDirection = DcMotorSimple.Direction.FORWARD;
-
     public static DcMotorSimple.Direction frontLeftDirectionAuto = DcMotorSimple.Direction.REVERSE;
     public static DcMotorSimple.Direction backLeftDirectionAuto = DcMotorSimple.Direction.REVERSE;
-    public static DcMotorSimple.Direction frontRightDirectionAuto = DcMotorSimple.Direction.FORWARD;
-    public static DcMotorSimple.Direction backRightDirectionAuto = DcMotorSimple.Direction.FORWARD;
-    public static boolean useBrakeInTeleOp = true;
-    //Config names
-    public static String pinpointName = "pinpoint";
-    //HARDWARE--------------------------------------------------------------------------------------
-    public static String arcShooterName = "arcMotor"; //Expansion Hub Port 1
-    public static String intakeMotorName = "intake"; //Expansion Hub Port 0
-    public static String flickerServoName = "flicker"; //Control Hub Servos Port 1
-    public static String storageServoName = "storageServo"; //Control Hub Servos Port 0
-    public static String colorSensor1 = "colorSensor1"; //Expansion Hub I2C port 0
-    public static String spindexerMotorName = "spindexer"; //Expansion Hub Port 2
-    public static String turretServoName = "turretServo";
-    public static String pwmLightName = "pwmLight";
-    public static String hoodName = "hood";
-
-    //AUTONOMOUS-------------------------------------------------------------------------------------
-    //Auto, needs measuring, in inches
-    public static double forwardPodY = 2;
-    public static double strafePodX = -6;
-    public static DistanceUnit podsMeasurementUnit = DistanceUnit.INCH;
-
-    public static int degreeToleranceCamera = 1;
-    public static int degreeToleranceCameraAuto = 1;
-    public static double shotAngleBlueDegrees = 70;
-    public static double shotAngleRedDegrees = 110;
-
-    public static GoBildaPinpointDriver.EncoderDirection forwardPodDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
-    public static GoBildaPinpointDriver.EncoderDirection lateralPodDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
-
-    public static double xVelocity = 65.42;
-    public static double yVelocity = 50.83;
-
-    //Tuning values
-    public static double robotMassKG = 16.09;
-    public static double forwardZeroPowerAcceleration = -31.31;
-    public static double lateralZeroPowerAcceleration = -59.31;
-    public static double centripetalScaling = 0.005;
-
-    public static double ROBOT_HEADING_OFFSET = 90;
-
-    //PIDs
-    public static PIDFCoefficients translationalPIDCoefficients = new PIDFCoefficients(0.06, 0, 0.001, 0);
-    public static PIDFCoefficients headingPIDFCoefficients = new PIDFCoefficients(0.7, 0, 0.1, 0);
-    public static FilteredPIDFCoefficients drivePIDCoefficients = new FilteredPIDFCoefficients(0.005, 0, 0.001, 0.7, 0);
-
-    //TELEOP-------------------------------------------------------------------------------------------------------------------------
-    public static PIDFCoefficients arcPIDs = new PIDFCoefficients(0.001, 0, 0.8, 0.45);
-    public static PIDFCoefficients arcPIDsBack = new PIDFCoefficients(0.001, 0, 0.8, 0.95);
-    public static PIDFCoefficients arcPIDsAuto = new PIDFCoefficients(0.001, 0, 0.8, 0.95);
-
-    public static double ARC_COMPENSATION_RPM = 0;
-
-    public static double arcKV = 0.000075;
-    public static double arcKA = 0.1;
-
-    public static double turretKF = 0.0025;
-
-    public static PIDCoefficients rotationalPIDs = new PIDCoefficients(0.0502, 0.00065,0.00001);
-    public static PIDCoefficients spindexerPIDs = new PIDCoefficients(0.005, 0, 0);
-    // tuned
-//    public static PIDCoefficients turretPIDs = new PIDCoefficients(0.001, 0, 0.09);
-//
-//    public static PIDCoefficients turretPIDsHeading = new PIDCoefficients(0.001, 0, 0.09);
-//
-//
-//    public static PIDCoefficients turretPIDsAuto = new PIDCoefficients(0.001, 0, 0.09);
-    // Look at these because he was in cr mode though I dont have PIDS
-
-    public static double brakingStrength = 1.25;
-    public static double timeoutConstantMS = 600;
-    public static double brakingStart = 1;
-    public static double tValueConstraint = 1;
+    public static DcMotorSimple.Direction frontRightDirectionAuto = DcMotorSimple.Direction.REVERSE;
+    public static DcMotorSimple.Direction backRightDirectionAuto = DcMotorSimple.Direction.REVERSE;
+    public static boolean useBrakeInTeleop = true;
+    public String pinpointName = "pinpoint";
 
 
-    public static double INTAKE_POWER = 1.0;
-    //Tuned
-//    public static double turretServoPower = 0.01;
-//
-//    public static double turretSlowPower = -0.01;
-    //I think this is there becuase of CR mode
-    public static DcMotorSimple.Direction intakeDirection = DcMotorSimple.Direction.REVERSE;
-    //Tuned
-    public static DcMotorSimple.Direction leftShooterDirection = DcMotorSimple.Direction.REVERSE;
-    //Tuned
-    public static DcMotorSimple.Direction rightShooterDirection = DcMotorSimple.Direction.FORWARD;
-    //Tuned
-    public static boolean useBothArcMotors = false;
+    static {
+        followerConstants = new FollowerConstants()
+                .mass(16.09)
+                .headingPIDFCoefficients(new PIDFCoefficients(0.7, 0, 0.01, 0))
+                .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.4, 0.08040006101929494, 0.0014481301913960136));
+    }
+public static MecanumConstants driveConstants = new MecanumConstants()
+        .maxPower(.5)
+        .rightFrontMotorName("fr")
+        .rightRearMotorName("br")
+        .leftFrontMotorName("fl")
+        .leftRearMotorName("bl")
+        .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+        .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+        .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+        .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+        .yVelocity(50.83)
+        .xVelocity(65.42);
+    public static PathConstraints pathConstraints = new PathConstraints(
+            1,
+            600,
+            1.25,
+            1
+    );
 
-//    public static double TURRET_MAX_ENCODER_VALUE = 300;
-// We dont need this becuase he was in CR Mode
-    public static boolean usingFlywheelWeights = true;
+    public static PinpointConstants localizerConstants = new PinpointConstants()
+            .forwardPodY(2) // TODO: offsets
+            .strafePodX(-6)
+            .distanceUnit(DistanceUnit.INCH)
+            .hardwareMapName("pinpoint")
+            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
+            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-
-    public static double SHOOTER_TARGET_Speed =
-
-    public static double SHOOTER_TARGET_RPM_AUTO = 3150;
-    public static double SHOOTER_FRONT_RPM = 2550;
-    public static double SHOOTER_IDLE_RPM = 2850;
-    public static int SHOOTER_PPR = 28;
-    public static double SHOOTER_UPDATE_TIME_SECONDS = 0;
-    public static double SHOOTER_ANGLE_DEG = 50;
-
-    public static double CAMERA_HEIGHT_CM = 40;
-    public static double CAMERA_ANGLE = 3.1;
-    public static double GOAL_HEIGHT = 74.95;
-
-
-    public static double HOOD_STARTING_ANGLE = 45;
-    public static double HOOD_MAX_ANGLE = 55;
-
-    public static double TURRET_OFFSET_ANGLE_BLUE = -8;
-    public static double TURRET_OFFSET_ANGLE_BLUE_AUTO = -8;
-    public static double TURRET_OFFSET_ANGLE_RED = 0;
-
-    public static int SPINDEXER_TOLERANCE = 1000;
-
-    public static double MIN_G_VALUE_COLOR_SENSOR = 165;
-    public static double MAX_DISTANCE_COLOR_SENSOR = 35;
-    public static double MIN_DISTANCE_COLOR_SENSOR = 10;
-
-
-    public static double HOOD_STEP_SIZE = 0.05;
-
-    public static double FLICKER_SERVO_UP = 0.75;
-
-    public static double limelightMountAngle = 4.2;
-    public static double FLICKER_SERVO_DOWN = 0;
-    public static double FLICKER_UP_TIME = 0.35;
-
-    public static double maxLaunchZoneDistance = 15; //inches
-
-    public static double maxLaunchZoneArcShooterDistance = 24; //inches
-
-    public static double STORAGE_BALL_1 = 0.1;
-    public static double STORAGE_BALL_2 = 0.45;
-    public static double STORAGE_BALL_3 = 0.85;
-
-
-    public static int SPINDEXER_ENCODER_BALL_1_INTAKE = 2424;
-    public static int SPINDEXER_ENCODER_BALL_1_SHOOT = 518;
-    public static int SPINDEXER_ENCODER_BALL_2_INTAKE = 3650;
-    public static int SPINDEXER_ENCODER_BALL_2_SHOOT = 3000;
-    public static int SPINDEXER_ENCODER_BALL_3_INTAKE = 1102;
-    public static int SPINDEXER_ENCODER_BALL_3_SHOOT = 3255;
-
-    public static int SPINDEXER_MOTOR_SHOOT_ALL = -1650;
-    public static int SPINDEXER_MOTOR_SHOOT_ALL_2_BALLS = -1250;
-    public static int SPINDEXER_MOTOR_LOCK = -622;
-    public static int SPINDEXER_MOTOR_BALL_1_INTAKE = 0;
-    public static int SPINDEXER_MOTOR_BALL_1_SHOOT = -634;
-    public static int SPINDEXER_MOTOR_BALL_2_INTAKE = -240;
-    public static int SPINDEXER_MOTOR_BALL_2_SHOOT = -634;
-    public static int SPINDEXER_MOTOR_BALL_3_INTAKE = -485;
-    public static int SPINDEXER_MOTOR_BALL_3_SHOOT = -874;
-    //TUNERS---------------------------------------------------------------------------------------------------------------------------
-    //TODO: TURN OFF BEFORE COMPS
-    public static boolean panelsDrawingEnabled = true;
-    public static boolean panelsEnabled = true;
-
-    public static CanvasRotation panelsFieldRotation = CanvasRotation.DEG_90;
-
-    public static double defaultShooterRPM = SHOOTER_TARGET_RPM;
-    public static double velocityUpStep = 0.1;
-    public static double velocityDownStep = 0.1;
-
-    public static double storageServoStep = 0.05;
+    public static Follower createFollower(HardwareMap hardwareMap) {
+        return new FollowerBuilder(followerConstants, hardwareMap)
+                .pathConstraints(pathConstraints)
+                .mecanumDrivetrain(driveConstants)
+                .pinpointLocalizer(localizerConstants)
+                .build();
+    }
 }

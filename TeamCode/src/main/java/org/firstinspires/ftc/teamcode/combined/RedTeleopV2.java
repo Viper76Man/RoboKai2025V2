@@ -14,8 +14,9 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.TurretRedsub;
 
+
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionRedSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
+
 
 import java.util.List;
 
@@ -85,11 +86,11 @@ public class RedTeleopV2 extends NextFTCOpMode {
                         IntakeSub.INSTANCE.stopIntake
 
                 ));
-        Gamepads.gamepad1().circle()
-                .whenBecomesTrue( LiftSub.INSTANCE.up);
-
-        Gamepads.gamepad1().touchpad()
-                .whenBecomesTrue(LiftSub.INSTANCE.down);
+//        Gamepads.gamepad1().circle()
+//                .whenBecomesTrue( LiftSub.INSTANCE.up);
+//
+//        Gamepads.gamepad1().touchpad()
+//                .whenBecomesTrue(LiftSub.INSTANCE.down);
 //        Gamepads.gamepad1().dpadUp()
 //                        .whenBecomesTrue(new SequentialGroup(
 //                                raise()
@@ -165,7 +166,7 @@ public class RedTeleopV2 extends NextFTCOpMode {
         telemetry.addData("Hood Position",Adjustablehoodtestsub.INSTANCE.getHoodposition());
         telemetry.addData("Distance to Goal", VisionRedSub.INSTANCE.totalDistanceGoal());
         telemetry.addData("Zone", VisionRedSub.INSTANCE.getDectectedZone());
-        telemetry.addData("tx",VisionSub.INSTANCE.getTx());
+        telemetry.addData("tx",VisionRedSub.INSTANCE.getTx());
         telemetry.addData("Has Target",VisionRedSub.INSTANCE.hastarget());
         telemetry.addData("Command Position", TurretRedsub.Instance.turret.getPosition());
         telemetry.update();

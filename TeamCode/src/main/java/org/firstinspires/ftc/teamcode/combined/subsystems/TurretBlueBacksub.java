@@ -31,15 +31,15 @@ public class TurretBlueBacksub implements Subsystem {
 
     @Override
     public void periodic() {
-        VisionRedSub.DetectedZone zone = VisionRedSub.INSTANCE.getDectectedZone();
+        VisionSub.DetectedZone zone = VisionSub.INSTANCE.getDectectedZone();
 
-        if ((zone == VisionRedSub.DetectedZone.Zone4 || zone == VisionRedSub.DetectedZone.ZONE2 || zone == VisionRedSub.DetectedZone.ZONE1) && (VisionRedSub.INSTANCE.hastarget() && Math.abs(VisionRedSub.INSTANCE.getTx()) > Deadbandangle)) {
-            double tx = VisionRedSub.INSTANCE.getTx();
+        if ((zone == VisionSub.DetectedZone.Zone4 || zone == VisionSub.DetectedZone.ZONE2 || zone == VisionSub.DetectedZone.ZONE1) && (VisionSub.INSTANCE.hastarget() && Math.abs(VisionSub.INSTANCE.getTx()) > Deadbandangle)) {
+            double tx = VisionSub.INSTANCE.getTx();
             Commandposition += Tx_sign * kP * (tx - txOffset);
             Commandposition = Math.max(MinPos, Math.min(MaxPos, Commandposition));
             turret.setPosition(angleToPosition(Commandposition));
-        } else if (zone == VisionRedSub.DetectedZone.Zone3 && VisionRedSub.INSTANCE.hastarget() && Math.abs(VisionRedSub.INSTANCE.getTx()) > Deadbandangle) {
-            double tx = VisionRedSub.INSTANCE.getTx();
+        } else if (zone == VisionSub.DetectedZone.Zone3 && VisionSub.INSTANCE.hastarget() && Math.abs(VisionSub.INSTANCE.getTx()) > Deadbandangle) {
+            double tx = VisionSub.INSTANCE.getTx();
             Commandposition += Tx_sign * kP * (tx - txOffsetBack);
             Commandposition = Math.max(MinPos, Math.min(MaxPos, Commandposition));
             turret.setPosition(angleToPosition(Commandposition));

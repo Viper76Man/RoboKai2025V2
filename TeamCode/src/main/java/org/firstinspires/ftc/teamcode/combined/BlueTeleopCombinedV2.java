@@ -14,7 +14,8 @@ import org.firstinspires.ftc.teamcode.combined.subsystems.RGBSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.RampSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.SpindexerSub;
-import org.firstinspires.ftc.teamcode.combined.subsystems.Turretsub;
+
+import org.firstinspires.ftc.teamcode.combined.subsystems.TurretBlueBacksub;
 import org.firstinspires.ftc.teamcode.combined.subsystems.VisionSub;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
                 new SubsystemComponent(Adjustablehoodtestsub.INSTANCE),
                 new SubsystemComponent(FlywheelSub.INSTANCE),
                 new SubsystemComponent(VisionSub.INSTANCE),
-                new SubsystemComponent(Turretsub.Instance),
+                new SubsystemComponent(TurretBlueBacksub.Instance),
                 BulkReadComponent.INSTANCE,
                 BindingsComponent.INSTANCE
         );
@@ -163,7 +164,7 @@ public class BlueTeleopCombinedV2 extends NextFTCOpMode {
         telemetry.addData("Zone", VisionSub.INSTANCE.getDectectedZone());
         telemetry.addData("tx", VisionSub.INSTANCE.getTx());
         telemetry.addData("Has Target", VisionSub.INSTANCE.hastarget());
-        telemetry.addData("Command Position", Turretsub.Instance.turret.getPosition());
+        telemetry.addData("Command Position", TurretBlueBacksub.Instance.turret.getPosition());
         telemetry.update();
 
         if (VisionSub.INSTANCE.getDectectedZone() == VisionSub.DetectedZone.ZONE0) {
